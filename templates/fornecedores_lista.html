@@ -36,6 +36,7 @@
                     <th>Cidade</th>
                     <th>Telefone</th>
                     <th>Email</th>
+                    <th>Ação</th>
                     <!-- Adicione mais colunas conforme necessário -->
                 </tr>
             </thead>
@@ -49,6 +50,12 @@
                     <td>{{ fornecedor.Cidade }}</td>
                     <td>{{ fornecedor.Telefone }}</td>
                     <td>{{ fornecedor.Email }}</td>
+                    <td>
+                        <a href="{{ url_for('editar_fornecedor', id_fornecedor=fornecedor.id_fornecedor) }}" class="btn btn-primary btn-sm">Editar</a>
+                        <form action="{{ url_for('excluir_fornecedor', id_fornecedor=fornecedor.id_fornecedor) }}" method="POST" style="display: inline;">
+                            <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+                        </form>
+                    </td>
                     <!-- Adicione mais colunas conforme necessário -->
                 </tr>
                 {% endfor %}

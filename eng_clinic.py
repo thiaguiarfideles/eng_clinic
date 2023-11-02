@@ -617,6 +617,45 @@ def fornecedores_list():
     return render_template('fornecedores_lista.html', fornecedores=fornecedores)
 
 
+@app.route('/editar_fornecedor/<int:id_fornecedor>', methods=['GET', 'POST'])
+def editar_fornecedor(id_fornecedor):
+    fornecedor = CadFornecedor.query.get(id_fornecedor)
+
+    if request.method == 'POST':
+        # Atualize os campos com os dados do formulário
+        fornecedor.CNPJ = request.form['cnpj']
+        fornecedor.Razao_Social = request.form['razao_social']
+        fornecedor.Nome_Fantasia = request.form['nome_fantasia']
+        fornecedor.Endereco = request.form['Endereco']
+        fornecedor.Numero = request.form['Numero']
+        fornecedor.Bairro = request.form['Bairro']
+        fornecedor.CEP = request.form['CEP']
+        fornecedor.Cidade = request.form['Cidade']
+        fornecedor.UF = request.form['UF']
+        fornecedor.Pais = request.form['Pais']
+        fornecedor.Telefone = request.form['Telefone']
+        fornecedor.Celular = request.form['Celular']
+        fornecedor.Contato = request.form['Contato']
+        fornecedor.Email = request.form['Email']
+
+        db.session.commit()
+        flash('Fornecedor atualizado com sucesso', 'success')
+        return redirect(url_for('fornecedores_list'))
+
+    return render_template('editar_fornecedor.html', fornecedor=fornecedor)
+
+@app.route('/excluir_fornecedor/<int:id_fornecedor>', methods=['POST'])
+def excluir_fornecedor(id_fornecedor):
+    fornecedor = CadFornecedor.query.get(id_fornecedor)
+
+    if fornecedor:
+        db.session.delete(fornecedor)
+        db.session.commit()
+        flash('Fornecedor excluído com sucesso', 'success')
+
+    return redirect(url_for('fornecedores_list'))
+
+
 @app.route('/cadastro_cliente', methods=['GET', 'POST'])
 def cadastro_cliente():
     if request.method == 'POST':
@@ -674,6 +713,23 @@ def cadastro_cliente():
 def listar_clientes():
     clientes = Cliente.query.all()
     return render_template('listar_clientes.html', clientes=clientes)
+
+@app.route('/pesquisar_clientes', methods=['GET'])
+def pesquisar_clientes():
+    search_query = request.args.get('search', default='', type=str)
+
+    if search_query:
+        # Use a pesquisa para filtrar os resultados da consulta
+        clientes = Cliente.query.filter(
+            (Cliente.nome_fantasia.like(f'%{search_query}%')) |
+            (Cliente.razao_social.like(f'%{search_query}%')) |
+            (Cliente.nome_pessoa_fisica.like(f'%{search_query}%'))
+        ).all()
+    else:
+        # Se a consulta de pesquisa estiver vazia, obtenha todos os clientes
+        clientes = Cliente.query.all()
+
+    return render_template('listar_clientes.html', clientes=clientes, search_query=search_query)
 
 
 @app.route('/update_cliente/<int:id_cliente>', methods=['GET', 'POST'])

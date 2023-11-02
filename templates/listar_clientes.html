@@ -18,6 +18,12 @@
 <body>
     <div class="container">
         <h1 class="text-center page-title">Atualizar dados dos clientes</h1>
+        <form method="get" action="/pesquisar_clientes">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" name="search" placeholder="Pesquisar clientes..." value="{{ search_query }}">
+                <button class="btn btn-outline-secondary" type="submit">Pesquisar</button>
+            </div>
+        </form>
         <div class="container">
             <table class="table">
                 <thead>
