@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">  <!-- Seu arquivo CSS personalizado -->
+    <title>Atualizar clientes</title>
+    <style>
+        /* Estilos CSS personalizados */
+        .page-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #007BFF; /* Cor à sua escolha */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center page-title">Atualizar dados dos materiais</h1>
+        <form method="GET" class="mb-3">
+            <div class="input-group">
+                <input type="text" class="form-control" name="search" placeholder="Pesquisar por Material ou Descrição">
+                <button type="submit" class="btn btn-primary">Pesquisar</button>
+            </div>
+        </form>
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tipo de Material</th>
+                        <th>Material</th>
+                        <th>Descrição</th>
+                        <th>Unidade de Medida</th>
+                        <th>Quantidade</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for material in materiais %}
+                    <tr>
+                        <td>{{ material.id }}</td>
+                        <td>{{ material.tipo_material }}</td>
+                        <td>{{ material.material }}</td>
+                        <td>{{ material.descricao }}</td>
+                        <td>{{ material.unidade_medida }}</td>
+                        <td>{{ material.quantidade }}</td>
+                        <td>
+                            <a href="{{ url_for('editar_material', id_material=material.id) }}" class="btn btn-primary">Editar</a>
+                            <form method="POST" action="{{ url_for('excluir_material', id_material=material.id) }}" style="display: inline;">
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir este maaterial?')">Excluir</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    <script>
+        // Adicione validação personalizada aqui, se necessário
+    </script>
+</body>
+</html>

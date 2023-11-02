@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Material</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">  <!-- Seu arquivo CSS personalizado -->
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Editar Material</h1>
+        <form method="POST">
+            <div class="mb-3">
+                <label for="tipo_material" class="form-label">Tipo de Material</label>
+                <input type="text" class="form-control" id="tipo_material" name="tipo_material" value="{{ material.tipo_material }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="material" class="form-label">Material</label>
+                <input type="text" class="form-control" id="material" name="material" value="{{ material.material }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="descricao" class="form-label">Descrição</label>
+                <input type="text" class="form-control" id="descricao" name="descricao" value="{{ material.descricao }}">
+            </div>
+            <div class="mb-3">
+                <label for="unidade_medida" class="form-label">Unidade de Medida</label>
+                <input type="text" class="form-control" id="unidade_medida" name="unidade_medida" value="{{ material.unidade_medida }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="quantidade" class="form-label">Quantidade</label>
+                <input type="number" class="form-control" id="quantidade" name="quantidade" value="{{ material.quantidade }}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+    </div>
+</body>
+</html>

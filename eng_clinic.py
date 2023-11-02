@@ -796,6 +796,54 @@ def cadastro_materiais():
 
     return render_template('cadastro_materiais.html', materiais=materiais)
 
+@app.route('/listar_materiais', methods=['GET'])
+def listar_materiais():
+    search_query = request.args.get('search', default='', type=str)
+    # Consulta base para listar todos os materiais
+    query = Material.query
+
+    if search_query:
+        # Aplicar o filtro apenas se uma consulta de pesquisa for fornecida
+        query = query.filter(
+            (Material.material.contains(search_query)) |
+            (Material.descricao.contains(search_query))
+        )
+
+    materiais = query.all()
+    return render_template('listar_materiais.html', materiais=materiais)
+
+
+@app.route('/editar_material/<int:id_material>', methods=['GET', 'POST'])
+def editar_material(id_material):
+    material = Material.query.get(id_material)
+
+    if request.method == 'POST':
+        # Atualize os campos com os dados do formulário
+        material.tipo_material = request.form['tipo_material']
+        material.material = request.form['material']
+        material.descricao = request.form['descricao']
+        material.unidade_medida = request.form['unidade_medida']
+        material.quantidade = request.form['quantidade']
+
+        db.session.commit()
+        flash('Material atualizado com sucesso', 'success')
+        return redirect(url_for('listar_materiais'))
+
+    return render_template('editar_material.html', material=material)
+
+@app.route('/excluir_material/<int:id_material>', methods=['POST'])
+def excluir_material(id_material):
+    material = Material.query.get(id_material)
+
+    if material:
+        db.session.delete(material)
+        db.session.commit()
+        flash('Material excluído com sucesso', 'success')
+
+    return redirect(url_for('listar_materiais'))
+
+
+
 @app.route('/item_material/cadastrar', methods=['GET', 'POST'])
 def cadastrar_item_material():
     form = CadastroItemMaterialForm()
