@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <!-- Datatable -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/dataTables.bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowgroup/1.3.0/css/rowGroup.bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/searchpanes/2.0.2/css/searchPanes.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='js/plotly-latest.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dash.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/dataTables.bulma.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/rowgroup/1.3.0/js/dataTables.rowGroup.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.15/dataRender/datetime.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/searchpanes/2.0.2/js/dataTables.searchPanes.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+    <title>Tempo Integra Estab</title>
+    <style>
+      .card-container {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        margin: 0 auto;
+        margin-top: 30px;
+      }
+
+      .card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+      }
+
+      .card-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .card-text {
+        font-size: 22px;
+        color: gray;
+        font-weight: bold;
+        margin-bottom: 18px;
+      }
+    </style>
+    <style>
+      p {
+        font-size: 12;
+      }
+
+      p.normal {
+        font-weight: normal;
+      }
+
+      p.light {
+        font-weight: lighter;
+      }
+
+      p.thick {
+        font-weight: bold;
+      }
+
+      p.thicker {
+        font-weight: 900;
+      }
+
+      .lead {
+        font-weight: bold;
+      }
+
+      #nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #333;
+        color: #fff;
+        height: 50px;
+        font-size: 12px;
+        box-shadow: 0 8px 18px 1 rgba(0, 0, 0, 0.2);
+      }
+
+      #nav ul {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      #nav li {
+        display: inline-block;
+        margin-right: 10px;
+      }
+
+      #nav a {
+        color: #fff;
+        text-decoration: none;
+        padding: 10px 13px;
+      }
+
+      #nav a:hover {
+        background-color: #444;
+      }
+
+      .section-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+
+      .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .card {
+        width: 300px;
+        margin: 30px;
+        box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2);
+        transition: 0.7s;
+      }
+
+      .card:hover {
+        box-shadow: 0 8px 18px 1 rgba(0, 0, 0, 0.2);
+      }
+
+      .card-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .card-title2 {
+        font-size: 13px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .card-text {
+        font-size: 12px;
+        color: rgb(16, 13, 15);
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+
+      .img-responsive {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        margin: 0 auto;
+        background-size: 90px;
+      }
+    </style>
+    <nav id="nav" role="navigation">
+      <ul id="menu-menu-1">
+        <!-- outros itens de menu -->
+        <li class="menu-inline menu-item">
+          <a title="Produtos" href="/TP_DASH" target="_blank">Média de tempo integração Barras</a>
+          <i class="a-solid fa-circle-plus fa-beat" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li class="menu-inline menu-item">
+          <a title="Produtos" href="/TP_PIZZA" target="_blank">Quantidade de exames integrados Pizza</a>
+          <i class="a-solid fa-circle-plus fa-beat" aria-hidden="true"></i>
+          </a>
+        </li>> </li>
+        <li class="menu-inline menu-item">
+          <a title="Produtos" href="/TP_TABELA" target="_blank">Tabela QNT | Prescr | Média Tempo</a>
+          <i class="a-solid fa-circle-plus fa-beat" aria-hidden="true"></i>
+          </a>
+        </li>
+        <li class="menu-inline menu-item">
+          <a title="Produtos" href="/TEMPO_INTEGRA" target="_blank">Visualizar não integrados</a>
+          <i class="a-solid fa-circle-plus fa-beat" aria-hidden="true"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </head> {% block content %}
+</html>
+<div class="text-center">
+  <h3 class="card-title2">Integração dos Pedidos TASY|Matrix DF</h3>
+  <h3 class="card-title2">CONSULTA '13/06/2023 06:00:01' - '20/06/2023 23:59:59' </h3>
+  <h3 class="card-title2">Pedidos Integrados por Estabelecimento</h3>
+</div>
+<div class="card-container">
+  <div class="text-center">
+    <table id="table" class="display table-bordered nowrap responsive" class="table" style="background-color: black">
+      <thead>
+        <tr> {% for header in table_data[0] %} <th style="color:rgb(244, 241, 241);font-weight:bold;">{{ header }}</th> {% endfor %} </tr>
+      </thead>
+      <tbody> {% for row in table_data %} <tr> {% for key, value in row.items() %} <td style="color:rgb(244, 241, 241);font-weight:bold;">{{ value }}</td> {% endfor %} </tr> {% endfor %} </tbody>
+    </table>
+    <div class="text-left">
+      <button type="button" class="btn btn-primary" data-toggle="collapse" onclick="downloadExcel()">Baixar arquivo Excel</button>
+    </div>
+  </div>
+</div>
+</div>
+</body>
+<script>
+  function downloadExcel() {
+    var table = document.getElementById("table");
+    var data = [];
+    for (var i = 0, row; row = table.rows[i]; i++) {
+      data.push([]);
+      for (var j = 0, col; col = row.cells[j]; j++) {
+        data[i].push(col.innerHTML);
+      }
+    }
+    var csvContent = "data:text/csv;charset=utf-8,";
+    data.forEach(function(rowArray) {
+      var row = rowArray.join(";");
+      csvContent += row + "\r\n";
+    });
+    var encodedUri = encodeURI(csvContent);
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "table.csv");
+    document.body.appendChild(link);
+    link.click();
+  }
+</script> {% endblock %}

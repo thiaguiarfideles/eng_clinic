@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script type = "text/javascript"  src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script type = "text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script type = "text/javascript"  src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <!-- Datatable -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/dataTables.bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowgroup/1.3.0/css/rowGroup.bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/searchpanes/2.0.2/css/searchPanes.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='js/plotly-latest.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dash.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+    <script type = "text/javascript"  src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script type = "text/javascript"  src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script type = "text/javascript"  src="https://cdn.datatables.net/1.13.1/js/dataTables.bulma.min.js"></script>
+    <script type = "text/javascript"  src="https://cdn.datatables.net/rowgroup/1.3.0/js/dataTables.rowGroup.min.js"></script>
+    <script type = "text/javascript"  src="https://cdn.datatables.net/plug-ins/1.10.15/dataRender/datetime.js"></script>
+    <script type = "text/javascript"  src="https://cdn.datatables.net/searchpanes/2.0.2/js/dataTables.searchPanes.min.js"></script>
+    <script type = "text/javascript"  src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+    <title>Pizza Exames Estab </title>
+
+  <style>
+      .card-container {
+        display: inline-block;
+        position:relative;
+        width: 600px;
+        height: 540px;
+        padding: 0;
+}
+
+
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 22px;
+    color: gray;
+    font-weight: bold;
+    margin-bottom: 18px;
+}
+    </style>
+<style>
+p{
+   font-size:12;
+ }
+
+p.normal {
+  font-weight: normal;
+}
+
+p.light {
+  font-weight: lighter;
+}
+
+p.thick {
+  font-weight: bold;
+}
+
+p.thicker {
+  font-weight: 900;
+}
+.lead {
+    font-weight: bold;
+  }
+  #nav {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              background-color: #333;
+              color: #fff;
+              height: 50px;
+              font-size: 12px;
+              box-shadow: 0 8px 18px 1 rgba(0,0,0,0.2);
+            }
+          
+            #nav ul {
+              display: flex;
+              list-style: none;
+              margin: 0;
+              padding: 0;
+            }
+          
+            #nav li {
+              display: inline-block;
+              margin-right: 10px;
+            }
+          
+            #nav a {
+              color: #fff;
+              text-decoration: none;
+              padding: 10px 13px;
+            }
+          
+            #nav a:hover {
+              background-color: #444;
+            }
+
+.section-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card {
+    width: 300px;
+    margin: 30px;
+    box-shadow: 0 4px 12px 0 rgba(0,0,0,0.2);
+    transition: 0.7s;
+}
+
+.card:hover {
+    box-shadow: 0 8px 18px 1 rgba(0,0,0,0.2);
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.card-title2 {
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 12px;
+    color: rgb(16, 13, 15);
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+.img-responsive {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    background-size: 90px;
+} 
+</style>
+
+<nav id="nav" role="navigation">
+  <ul id="menu-menu-1">
+    <!-- outros itens de menu -->
+    <li class="menu-inline menu-item">
+      <a title="Produtos" href="/TP_DASH" target="_blank">Média de tempo integração Barras</a>
+        <i class="a-solid fa-circle-plus fa-beat" aria-hidden="true"></i>
+      </a>
+    </li>
+    <li class="menu-inline menu-item">
+      <a title="Produtos" href="/TP_PIZZA" target="_blank">Quantidade de exames integrados Pizza</a>
+        <i class="a-solid fa-circle-plus fa-beat" aria-hidden="true"></i>
+      </a>
+    </li>
+    <li class="menu-inline menu-item">
+      <a title="Produtos" href="/TP_TABELA" target="_blank">Tabela QNT | Prescr | Média Tempo</a>
+        <i class="a-solid fa-circle-plus fa-beat" aria-hidden="true"></i>
+      </a>
+    </li>
+    <li class="menu-inline menu-item">
+      <a title="Produtos" href="/TEMPO_INTEGRA" target="_blank">Visualizar não integrados</a>
+        <i class="a-solid fa-circle-plus fa-beat" aria-hidden="true"></i>
+      </a>
+    </li>
+    
+  </ul>
+</nav>
+</head>
+
+
+
+{% block content %}
+</html>
+<div class="text-center">
+    <h3 class="card-title2">Integração dos Pedidos TASY|Matrix DF</h3>
+</div>
+    
+    <div class="container">
+      <div id="plot"></div>
+      {{ plot_div|safe }}
+                         
+                  </div>
+    </div>
+    
+
+
+
+ <script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#tempo tbody tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+
+
+</script>
+
+<script>
+    function gettime() {
+      var currentTime = new Date();
+      var hours = currentTime.getHours();
+      var minutes = currentTime.getMinutes();
+      var seconds = currentTime.getSeconds();
+      if (minutes < 10) {
+        minutes = "0" + minutes;
+      }
+      if (seconds < 10) {
+        seconds = "0" + seconds;
+      }
+      document.getElementById("clock-display").innerHTML = hours + ":" + minutes + ":" + seconds;
+      setTimeout("gettime()", 1000);
+    }
+    gettime();
+  </script>
+  <script>
+    function getDayOfWeek() {
+      var daysOfWeek = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+      var currentDate = new Date();
+      var offset = -3; // GMT -3 horas para São Paulo
+      var localTime = new Date(currentDate.getTime() + offset * 60 * 60 * 1000);
+      var dayOfWeek = daysOfWeek[localTime.getUTCDay()];
+      document.getElementById("day-of-week").innerHTML = "Hoje é " + dayOfWeek;
+    }
+    getDayOfWeek();
+  </script>
+  
+{% endblock %}

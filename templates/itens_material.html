@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">  <!-- Seu arquivo CSS personalizado -->
+    <title>Itens material</title>
+    <style>
+        /* Estilos CSS personalizados */
+        .page-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #007BFF; /* Cor à sua escolha */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center page-title">Cadastro de itens material</h1>
+        <div class="container">
+            <form method="POST" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                <div>
+                    <label for="material">Material:</label>
+                    {{ form.material(class="form-control") }}
+                </div>
+                <div>
+                    <label for="fabricante">Fabricante:</label>
+                    {{ form.fabricante(class="form-control") }}
+                </div>
+                <div>
+                    <label for="modelo">Modelo:</label>
+                    {{ form.modelo(class="form-control") }}
+                </div>
+                <div>
+                    <label for="complemento">Complemento:</label>
+                    {{ form.complemento(class="form-control") }}
+                </div>
+                <div>
+                    <label for="quantidade">Quantidade:</label>
+                    {{ form.quantidade(class="form-control") }}
+                </div>
+                <div>
+                    <label for="foto_material">Foto do Material:</label>
+                    {{ form.foto_material(class="form-control-file") }}
+                </div>
+                <div>
+                    <label for="tipo_material">Tipo de Material:</label>
+                    {{ form.tipo_material(class="form-control") }}
+                </div>
+                <div>
+                    <label for="unidade_medida">Unidade de Medida:</label>
+                    {{ form.unidade_medida(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    <label for="data_consumo" class="form-label">Data de Consumo:</label>
+                    <input type="date" id="data_consumo" name="data_consumo" class="form-control" required>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary">Cadastrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+
+    <script>
+        // Adicione validação personalizada aqui, se necessário
+    </script>
+</body>
+</html>

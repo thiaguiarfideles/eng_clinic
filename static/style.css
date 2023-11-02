@@ -1,0 +1,11 @@
+body {
+      background-color:#F9F5F1;
+ }
+td {
+    font-size:10px;
+    }
+
+
+thead tr th input {
+    width: 100%;
+}

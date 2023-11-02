@@ -1,0 +1,111 @@
+<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>-->
+<!--<link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">-->
+
+<link rel="stylesheet" href="{{ url_for('static',filename='DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css')}}" />
+<!--<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>-->
+<!--<script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.19/dataRender/datetime.js"></script>-->
+<script type="text/javascript" charset="utf8" src="{{url_for('static', filename='DataTables/DataTables-1.10.18/js/jquery.dataTables.min.js')}}"></script>
+<script type="text/javascript" class="init">
+$(document).ready(function() {
+
+       // Setup - add a text input to each footer cell
+    $('#data-table thead tr').clone(true).appendTo( '#data-table thead' );
+    $('#data-table thead tr:eq(1) th').each( function (i) {
+        var title = $(this).text();
+        $(this).html( '<input type="text" placeholder="Buscar '+title+'" />' );
+
+        $( 'input', this ).on( 'keyup change', function () {
+            if ( table.column(i).search() !== this.value ) {
+                table
+                    .column(i)
+                    .search( this.value )
+                    .draw();
+            }
+        } );
+    } );
+
+
+var table = $('#data-table').DataTable( {
+        "language":{
+                "sEmptyTable": "Nenhum registro encontrado",
+                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sInfoThousands": ".",
+                "sLengthMenu": "_MENU_ resultados por página",
+                "sLoadingRecords": "Carregando...",
+                "sProcessing": "Processando...",
+                "sZeroRecords": "Nenhum registro encontrado",
+                "sSearch": "Pesquisar",
+                "oPaginate": {
+                    "sNext": "Próximo",
+                    "sPrevious": "Anterior",
+                    "sFirst": "Primeiro",
+                    "sLast": "Último"
+                },
+                "oAria": {
+                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                }
+            },
+        "order": [],
+        "lengthMenu": [[100, 250, 500, -1], [100, 250, 500, "All"]],
+        autoFill: {
+        columns: ':not(:first-child)'},
+        columnDefs: [ {
+            targets: [],
+            orderData: []
+        } ]
+    } );
+} );
+(function( factory ) {
+    "use strict";
+    if ( typeof define === 'function' && define.amd ) {
+        // AMD
+        define( ['jquery'], function ( $ ) {
+            return factory( $, window, document );
+        } );
+    }
+    else if ( typeof exports === 'object' ) {
+        // CommonJS
+        module.exports = function (root, $) {
+            if ( ! root ) {
+                root = window;
+            }
+            if ( ! $ ) {
+                $ = typeof window !== 'undefined' ?
+                    require('jquery') :
+                    require('jquery')( root );
+            }
+
+            return factory( $, root, root.document );
+        };
+    }
+    else {
+        // Browser
+        factory( jQuery, window, document );
+    }
+}
+(function( $, window, document ) {
+$.fn.dataTable.render.moment = function ( from, to, locale ) {
+    // Argument shifting
+    if ( arguments.length === 1 ) {
+        locale = 'en';
+        to = from;
+        from = 'YYYY-MM-DD';
+    }
+    else if ( arguments.length === 2 ) {
+        locale = 'en';
+    }
+
+    return function ( d, type, row ) {
+        var m = window.moment( d, from, locale, true );
+
+        // Order and type get a number value from Moment, everything else
+        // sees the rendered value
+        return m.format( type === 'sort' || type === 'type' ? 'x' : to );
+    };
+};
+}));
+</script>

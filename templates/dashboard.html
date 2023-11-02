@@ -1,0 +1,31 @@
+<!-- dashboard.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>Dados de INTEGRA</h1>
+    <ul>
+        <div class="container">
+            <div class="card-container">
+                {% for item in items %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.NM_FANTASIA_ESTAB }}</h5>
+                            <p class="card-text">Quantidade de exames Integrados: {{ item.QNT_EXAMES }}</p>
+                            <p class="card-text">Quantidade de prescrições Integrados: {{ item.QNT_PRESCR }}</p>
+                            <p class="card-text">Percentual do Total: {{ item.PERCENTUAL }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </ul>
+
+    <h1>Gráfico TP_DASH</h1>
+    <div>
+        {{ plot_div | safe }}
+    </div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">  <!-- Seu arquivo CSS personalizado -->
+    <title>Atualizar clientes</title>
+    <style>
+        /* Estilos CSS personalizados */
+        .page-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #007BFF; /* Cor à sua escolha */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center page-title">Atualizar dados dos clientes</h1>
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>CNPJ/CPF</th>
+                        <th>Razão Social</th>
+                        <th>Nome Fantasia</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cliente in clientes %}
+                    <tr>
+                        <td>{{ cliente.cnpj }}</td>
+                        <td>{{ cliente.razao_social }}</td>
+                        <td>{{ cliente.nome_fantasia }}</td>
+                        <td>
+                            <a href="{{ url_for('update_cliente', id_cliente=cliente.id_cliente) }}" class="btn btn-primary">Editar</a>
+                            <form method="POST" action="{{ url_for('delete_cliente', id_cliente=cliente.id_cliente) }}" style="display: inline;">
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir este cliente?')">Excluir</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    <script>
+        // Adicione validação personalizada aqui, se necessário
+    </script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+Crie um arquivo vazio chamado stop_signal.txt no mesmo diretório onde o arquivo .bat está localizado.
+
+Quando você quiser encerrar a execução do script .bat, basta remover o arquivo stop_signal.txt do diretório.
+
+Dessa forma, quando o script .bat for executado, ele verificará a existência do arquivo stop_signal.txt. Se o arquivo existir, ele exibirá uma mensagem de encerramento e, em seguida, será encerrado. Caso contrário, ele continuará executando o aplicativo Flask.
+
+Para interromper a execução do script .bat, você só precisa excluir o arquivo stop_signal.txt. Certifique-se de não excluir acidentalmente esse arquivo enquanto a aplicação estiver em execução, pois isso encerraria a execução imediatamente.

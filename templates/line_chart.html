@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gráfico de Linha</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.plot.ly/plotly-dark-latest.min.css">
+</head>
+<body>
+    <div id="chart"></div>
+    <script>
+        var chartDiv = document.getElementById('chart');
+        var plotDiv = "{{ plot_div|safe }}";
+        chartDiv.innerHTML = plotDiv;
+    </script>
+</body>
+</html>

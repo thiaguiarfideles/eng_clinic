@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Engenharia Clinica</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"> 
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/animate/animate.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/owlcarousel/assets/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/lightbox/css/lightbox.min.css') }}">
+    
+    <script src="{{ url_for('static', filename='lib/easing/easing.min.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}" defer></script>
+
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <style>
+    </style>
+</head>
+<body>
+    <div class="container-xxl bg-white p-0">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-grow text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+        <!-- Navbar & Hero Start -->
+        <div class="container-xxl position-relative p-0">
+            <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
+                <a href="" class="navbar-brand p-0">
+                    <h1 class="m-0"><i class="fa fa-search me-2"></i>Eng<span class="fs-5">Clinic</span></h1>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="fa fa-bars"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar-nav ms-auto py-0">
+                        <a href="/" class="nav-item nav-link active">Home</a>
+                        <a href="/login" class="nav-item nav-link active">Login</a>
+                        <a href="/logout" class="nav-item nav-link">Sair</a>
+                        <a href="/edit_password" class="nav-item nav-link">Editar Senha</a>
+                        <a href="/registro" class="nav-item nav-link">Registre-se</a>
+                        <a href="/" class="nav-item nav-link">PowerBi</a>
+                        <a href="contact.html" class="nav-item nav-link">Contato</a>
+                    </div>
+                    <butaton type="button" class="btn text-secondary ms-3" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></butaton>
+                </div>
+            </nav>
+
+            <div class="container-xxl py-5 bg-primary hero-header mb-12">
+                <div class="container-xl my-1 py-5 px-lg-2"> <!-- Aumentei o tamanho do container para container-xl -->
+                    <div class="row g-4 py-5">
+                        <div class="col-lg-12 text-right text-lg-start"> <!-- Aumentei o tamanho da coluna para col-lg-12 -->
+                            <h3 class="text-white mb-4 animated zoomIn">Bem-vindo ao Nosso Mundo da Engenharia Clínica</h3>
+                            <p class="text-white pb-2 animated zoomIn">Na vanguarda da inovação médica, nossa missão é garantir que os equipamentos médicos essenciais funcionem com perfeição,</p>
+                            <p class="text-white pb-2 animated zoomIn">para que você possa se concentrar no que mais importa: o cuidado de seus pacientes.</p>
+                            <p class="text-white pb-2 animated zoomIn">Com uma vasta experiência em engenharia clínica e uma equipe dedicada de especialistas, </p>
+                            <p class="text-white pb-2 animated zoomIn">oferecemos soluções de manutenção de equipamentos médicos de ponta a ponta.  </p>
+                            <p class="text-white pb-2 animated zoomIn">Nossos serviços não são apenas uma questão de conveniência, são uma questão de vida e saúde.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
+  
+        <!-- Navbar & Hero End -->
+        
+        <!-- Full Screen Search Start -->
+        <div class="modal fade" id="searchModal" tabindex="-1">
+            <div class="modal-dialog modal-fullscreen">
+                <div class="modal-content" style="background: rgba(29, 29, 39, 0.7);">
+                    <div class="modal-header border-0">
+                        <button type="button" class="btn bg-white btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body d-flex align-items-center justify-content-center">
+                        <div class="input-group" style="max-width: 600px;">
+                            <input type="text" class="form-control bg-transparent border-light p-3" placeholder="Type search keyword">
+                            <button class="btn btn-light px-4"><i class="bi bi-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Full Screen Search End -->
+
+        <!-- About Start -->
+        <div class="container-xxl py-5">
+            <div class="container px-lg-5">
+                <div class="row g-5">
+                    <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="section-title position-relative mb-4 pb-2">
+                            <h6 class="position-relative text-primary ps-4">O que fazemos:</h6>
+                            <h2 class="mt-2">Manutenção Preditiva e Preventiva: Monitoramos e cuidamos proativamente de seus equipamentos, para evitar falhas inesperadas.</h2>
+                        </div>
+                        <p class="mb-4">Reparo e Calibração: Nossa equipe altamente treinada realiza reparos e calibrações com precisão, garantindo que seus dispositivos funcionem com eficiência máxima.</p>
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <h6 class="mb-3"><i class="fa fa-check text-primary me-2"></i>Atualização dos chamados em tempo real</h6>
+                                <h6 class="mb-0"><i class="fa fa-check text-primary me-2"></i>Velocidade no tempo de atendimento</h6>
+                            </div>
+                            <div class="col-sm-6">
+                                <h6 class="mb-3"><i class="fa fa-check text-primary me-2"></i>24/7 realtime</h6>
+                                <h6 class="mb-0"><i class="fa fa-check text-primary me-2"></i>Acertividade no resultado</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <img class="img-fluid wow zoomIn" data-wow-delay="0.5s" src="{{ url_for('static', filename='img/about.jpg') }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- About End -->
+        <div class="container-xxl bg-primary newsletter my-7 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="container px-lg-7">
+                <div class="row align-items-center" style="height: 350px;">
+                    <div class="col-12 col-md-8">
+                        <h1 class="text-white mb-4 animated zoomIn">Gestão de cadastros:</h1>
+                        <p class="text-white pb-3 animated zoomIn">Cadastro de Usuarios, fornecedores, equipamentos, agendamentos, etc...</p>
+
+                        <div class="row">
+                            <div class="col-lg-5 text-center text-lg-start">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">Cadastros Gerenciais</button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item btn btn-Warning" active href="/registro">Cadastro de Usuários</a>
+                                        <a class="dropdown-item btn btn-Warning" active href="/cadastro_cliente">Cadastro de Clientes</a>
+                                        <a class="dropdown-item btn btn-Warning" active href="/cadastro_fornecedor">Cadastro de Fornecedores</a>
+                                        <a class="dropdown-item btn btn-Warning" active href="/fornecedores_list">Lista de Fornecedores</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 text-center text-lg-start">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">Cadastro de Materiais, Equipamentos</button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item btn btn-Warning" active href="/cadastro_materiais">Cadastro de Materiais</a>
+                                        <a class="dropdown-item btn btn-Warning" active href="/item_material/cadastrar">Uso de Materiais</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 text-center text-lg-start">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">Agendamentos</button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item btn btn-Warning" active href="/">Agendamentos</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 text-center text-lg-start">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">Outros cadastros</button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item btn btn-Warning" active href="/">Outros cadastros</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- Newsletter Start -->
+        <div class="container-xxl bg-primary newsletter my-5 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="container px-lg-5">
+                <div class="row align-items-center" style="height: 250px;">
+                    <div class="col-12 col-md-6">
+                        <h3 class="text-white">Nos envie sugestões.</h3>
+                        <small class="text-white">perguntas e sugestão de melhorias.</small>
+                        <div class="position-relative w-100 mt-3">
+                            <input class="form-control border-0 rounded-pill w-100 ps-4 pe-5" type="text" placeholder="Enter Your Email" style="height: 48px;">
+                            <button type="button" class="btn shadow-none position-absolute top-0 end-0 mt-1 me-2"><i class="fa fa-paper-plane text-primary fs-4"></i></button>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-center mb-n5 d-none d-md-block">
+                        <img class="img-fluid mt-5" style="height: 250px;" src="{{ url_for('static', filename='img/newsletter.png') }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Newsletter End -->
+
+        <!-- Portfolio Start -->
+        <div class="container-xxl py-5">
+            <div class="container px-lg-5">
+                <div class="section-title position-relative text-center mb-5 pb-2 wow fadeInUp" data-wow-delay="0.1s">
+                    <h6 class="position-relative d-inline text-primary ps-4">Outros Serviços</h6>
+                    <h2 class="mt-2">Monitoramento dos equipamentos.</h2>
+                </div>
+                <div class="row mt-n2 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="col-12 text-center">
+                        <ul class="list-inline mb-5" id="portfolio-flters">
+                            <li class="btn px-3 pe-4 active" data-filter="*">Todos</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row g-4 portfolio-container">
+                    <div class="col-lg-4 col-md-6 portfolio-item first wow zoomIn" data-wow-delay="0.1s">
+                        <div class="position-relative rounded overflow-hidden">
+                            <img class="img-fluid w-100" src="{{ url_for('static', filename='img/portfolio-1.jpg') }}" alt="">
+                            <div class="portfolio-overlay">
+                                <a class="btn btn-light" src="{{ url_for('static', filename='img/portfolio-1.jpg') }}" data-lightbox="portfolio"><i class="fa fa-plus fa-2x text-primary"></i></a>
+                                <div class="mt-auto">
+                                    <small class="text-white"><i class="fa fa-folder me-2"></i>Manutenção Preditiva e Preventiva</small>
+                                    <a class="h5 d-block text-white mt-1 mb-0" href="">Monitoramos e cuidamos proativamente de seus equipamentos, para evitar falhas inesperadas..</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 portfolio-item second wow zoomIn" data-wow-delay="0.3s">
+                        <div class="position-relative rounded overflow-hidden">
+                            <img class="img-fluid w-100" src="{{ url_for('static', filename='img/portfolio-2.jpg') }}" alt="">
+                            <div class="portfolio-overlay">
+                                <a class="btn btn-light" href="{{ url_for('static', filename='img/portfolio-2.jpg') }}" data-lightbox="portfolio"><i class="fa fa-plus fa-2x text-primary"></i></a>
+                                <div class="mt-auto">
+                                    <small class="text-white"><i class="fa fa-folder me-2"></i>Reparo e Calibração</small>
+                                    <a class="h5 d-block text-white mt-1 mb-0" href="">Nossa equipe altamente treinada realiza reparos e calibrações com precisão, garantindo que seus dispositivos funcionem com eficiência máxima.</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 portfolio-item first wow zoomIn" data-wow-delay="0.6s">
+                        <div class="position-relative rounded overflow-hidden">
+                            <img class="img-fluid w-100" src="{{ url_for('static', filename='img/portfolio-3.jpg') }}" alt="">
+                            <div class="portfolio-overlay">
+                                <a class="btn btn-light" href="{{ url_for('static', filename='img/portfolio-3.jpg') }}" data-lightbox="portfolio"><i class="fa fa-plus fa-2x text-primary"></i></a>
+                                <div class="mt-auto">
+                                    <small class="text-white"><i class="fa fa-folder me-2"></i>Suporte Técnico</small>
+                                    <a class="h5 d-block text-white mt-1 mb-0" href="">Estamos sempre prontos para responder a perguntas e fornecer assistência técnica quando você mais precisa.</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 portfolio-item second wow zoomIn" data-wow-delay="0.1s">
+                        <div class="position-relative rounded overflow-hidden">
+                            <img class="img-fluid w-100" src="{{ url_for('static', filename='img/portfolio-4.jpg') }}" alt="">
+                            <div class="portfolio-overlay">
+                                <a class="btn btn-light" href="{{ url_for('static', filename='img/portfolio-4.jpg') }}" data-lightbox="portfolio"><i class="fa fa-plus fa-2x text-primary"></i></a>
+                                <div class="mt-auto">
+                                    <small class="text-white"><i class="fa fa-folder me-2"></i>Recursos Educativos</small>
+                                    <a class="h5 d-block text-white mt-1 mb-0" href="">Oferecemos informações valiosas para ajudá-lo a entender a importância da manutenção de equipamentos médicos.</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 portfolio-item first wow zoomIn" data-wow-delay="0.3s">
+                        <div class="position-relative rounded overflow-hidden">
+                            <img class="img-fluid w-100" src="{{ url_for('static', filename='img/portfolio-5.jpg') }}" alt="">
+                            <div class="portfolio-overlay">
+                                <a class="btn btn-light" href="{{ url_for('static', filename='img/portfolio-5.jpg') }}" data-lightbox="portfolio"><i class="fa fa-plus fa-2x text-primary"></i></a>
+                                <div class="mt-auto">
+                                    <small class="text-white"><i class="fa fa-folder me-2"></i>Parceiro de Confiança</small>
+                                    <a class="h5 d-block text-white mt-1 mb-0" href="">Somos um parceiro de confiança para hospitais, clínicas e profissionais de saúde, cuidando de seus investimentos em equipamentos.
+
+                                        Explore nosso site para obter mais informações sobre nossos serviços e recursos. Estamos aqui para apoiar você e seus pacientes em cada passo do caminho.
+                                        
+                                        Junte-se a nós na busca pela excelência na engenharia clínica e na prestação de cuidados de saúde de alta qualidade..</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio End -->
+        
+
+        <!-- Footer Start -->
+        <div class="container-fluid bg-primary text-light footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">
+            <div class="container py-5 px-lg-5">
+                <div class="row g-5">
+                    <div class="col-md-6 col-lg-3">
+                        <h5 class="text-white mb-4">Sede Smartbnb</h5>
+                        <p><i class="fa fa-map-marker-alt me-3"></i>Endereço: Av. Atlântica, 1702 - Copacabana, Rio de Janeiro - RJ, 22021-001</p>
+                        <p><i class="fa fa-phone-alt me-3"></i> (21) 2548-7070</p>
+                        <p><i class="fa fa-envelope me-3"></i>contato@engenhariaclinica.com.br </p>
+                        <div class="d-flex pt-2">
+                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-instagram"></i></a>
+                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <h5 class="text-white mb-4">Popular Link</h5>
+                        <a class="btn btn-link" href="" class="nav-item nav-link"></a>
+                        <a class="btn btn-link" href="" class="nav-item nav-link"></a>
+                        <a class="btn btn-link" href="" class="nav-item nav-link"></a>
+                        <a class="btn btn-link" href="" class="nav-item nav-link"></a>
+                        <a class="btn btn-link" href="" class="nav-item nav-link"></a>
+
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <h5 class="text-white mb-4">Project Gallery</h5>
+                        <div class="row g-2">
+                            <div class="col-4">
+                                <img class="img-fluid" src="{{ url_for('static', filename='img/portfolio-1.jpg') }}" alt="">
+                            </div>
+                            <div class="col-4">
+                                <img class="img-fluid" src="{{ url_for('static', filename='img/portfolio-2.jpg') }}" alt="">
+                            </div>
+                            <div class="col-4">
+                                <img class="img-fluid" src="{{ url_for('static', filename='img/portfolio-3.jpg') }}" alt="">
+                            </div>
+                            <div class="col-4">
+                                <img class="img-fluid" src="{{ url_for('static', filename='img/portfolio-4.jpg') }}" alt="">
+                            </div>
+                            <div class="col-4">
+                                <img class="img-fluid" src="{{ url_for('static', filename='img/portfolio-5.jpg') }}" alt="">
+                            </div>
+                            <div class="col-4">
+                                <img class="img-fluid" src="{{ url_for('static', filename='img/portfolio-6.jpg') }}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    
+            </div>
+            <div class="container px-lg-5">
+                <div class="copyright">
+                    <div class="row">
+                        <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                            &copy; <a class="border-bottom" href="#">smartbnb.com.br</a>, All Right Reserved. 
+							
+							<!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+							Designed By <a class="border-bottom" href="https://www.linkedin.com/in/thiago-aguiar-fideles-5570b785/">Thiago.Fideles</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top pt-2"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='lib/wow/wow.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/easing/easing.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/waypoints/waypoints.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/owlcarousel/owl.carousel.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/isotope/isotope.pkgd.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/lightbox/js/lightbox.min.js') }}"></script>
+
+    <!-- Template Javascript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    
+</body>
+
+</html>
