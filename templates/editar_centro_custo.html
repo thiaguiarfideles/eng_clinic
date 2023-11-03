@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">  <!-- Seu arquivo CSS personalizado -->
+    <title>Centro de custo</title>
+    <style>
+        /* Estilos CSS personalizados */
+        .page-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #007BFF; /* Cor à sua escolha */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center page-title">Editar Centro de custo</h1>
+    <div class="container">
+        <form method="POST">
+            <div class="row g-3">
+                <div class="col-2 col-md-5">
+                    <label for="codigo">Código do Centro de Custo:</label>
+                    <input type="text" name="codigo" id="codigo" value="{{ centro_custo.codigo }}" required>
+                    <div class="invalid-feedback">
+                        Este campo é obrigatório.
+                    </div>
+                </div>
+                <!-- Campo para seleção do cliente -->
+                <div class="col-2 col-md-5">
+                    <label for="cliente_id">Cliente:</label>
+                    <select name="cliente_id" id="cliente_id" required>
+            {% for cliente in clientes %}
+            <option value="{{ cliente.id_cliente }}" {% if centro_custo and centro_custo.cliente_id == cliente.id_cliente %}selected{% endif %}>
+                {{ cliente.nome_fantasia }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+                <!-- Outros campos -->
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Atualizar</button>
+                </div>
+            </div>
+        </form>
+        
+    </div>
+</div>
+
+    <script>
+        // Adicione validação personalizada aqui, se necessário
+    </script>
+</body>
+</html>

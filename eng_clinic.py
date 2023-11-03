@@ -241,7 +241,13 @@ class TipoOS(db.Model):
         self.tipo_os = tipo_os
         self.observacoes = observacoes
 
+class CentroCusto(db.Model):
+    __tablename__ = 'centro_custo'
+    id = db.Column(db.Integer, primary_key=True)
+    codigo = db.Column(db.String(30), nullable=False)
+    cliente_id = db.Column(db.Integer, db.ForeignKey('cliente.id_cliente'), nullable=False)
     
+    cliente = db.relationship('Cliente', foreign_keys=[cliente_id])
 
 
     
@@ -917,6 +923,61 @@ def cadastrar_tipo_os():
 def listar_tipos_os():
     tipos_os = TipoOS.query.all()
     return render_template('lista_tipos_os.html', tipos_os=tipos_os)
+
+
+
+# Rota para listar todos os centros de custo
+@app.route('/centros_custo', methods=['GET'])
+def listar_centros_custo():
+    centros_custo = CentroCusto.query.all()
+    return render_template('lista_centros_custo.html', centros_custo=centros_custo)
+
+# Rota para adicionar um novo centro de custo
+@app.route('/centros_custo/novo', methods=['GET', 'POST'])
+def adicionar_centro_custo():
+    # Busque a lista de clientes para o formulário
+    clientes = Cliente.query.all()
+    
+    if request.method == 'POST':
+        codigo = request.form['codigo']
+        cliente_id = request.form['cliente_id']
+
+        centro_custo = CentroCusto(codigo=codigo, cliente_id=cliente_id)
+        db.session.add(centro_custo)
+        db.session.commit()
+        flash('Centro de custo adicionado com sucesso!', 'success')
+        return redirect(url_for('listar_centros_custo'))
+
+    return render_template('cadastro_centro_custo.html', centro_custo=None, clientes=clientes)
+
+# Rota para editar um centro de custo
+@app.route('/centros_custo/editar/<int:id>', methods=['GET', 'POST'])
+def editar_centro_custo(id):
+    centro_custo = CentroCusto.query.get(id)
+    
+    if request.method == 'POST':
+        codigo = request.form['codigo']
+        cliente_id = request.form['cliente_id']
+        
+        centro_custo.codigo = codigo
+        centro_custo.cliente_id = cliente_id
+
+        db.session.commit()
+        flash('Centro de custo atualizado com sucesso!', 'success')
+        return redirect(url_for('listar_centros_custo'))
+    
+    # Busque a lista de clientes para o formulário
+    clientes = Cliente.query.all()
+    return render_template('editar_centro_custo.html', centro_custo=centro_custo, clientes=clientes)
+
+# Rota para excluir um centro de custo
+@app.route('/centros_custo/excluir/<int:id>', methods=['GET', 'POST'])
+def excluir_centro_custo(id):
+    centro_custo = CentroCusto.query.get(id)
+    db.session.delete(centro_custo)
+    db.session.commit()
+    flash('Centro de custo excluído com sucesso!', 'success')
+    return redirect(url_for('listar_centros_custo'))
 
 
 

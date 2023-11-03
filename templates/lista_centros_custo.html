@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">  <!-- Seu arquivo CSS personalizado -->
+    <title>Centros de Custo</title>
+    <style>
+        /* Estilos CSS personalizados */
+        .page-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #007BFF; /* Cor à sua escolha */
+        }
+        td {
+            font-size: 13px;
+          }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center page-title">Lista de Centros de Custo</h1>
+        <a href="{{ url_for('adicionar_centro_custo') }}">Adicionar Centro de Custo</a>
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Código</th>
+                        <th>Cliente</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for centro_custo in centros_custo %}
+                        <tr>
+                            <td>{{ centro_custo.id }}</td>
+                            <td>{{ centro_custo.codigo }}</td>
+                            <td>{{ centro_custo.cliente.nome_fantasia }}</td>
+                            <td>
+                                <a href="{{ url_for('editar_centro_custo', id=centro_custo.codigo) }}" class="btn btn-primary">Editar</a>
+                                <form method="POST" action="{{ url_for('excluir_centro_custo', id=centro_custo.codigo) }}" style="display: inline;">
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir este centro de custo?')">Excluir</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    <script>
+        // Adicione validação personalizada aqui, se necessário
+    </script>
+</body>
+</html>
