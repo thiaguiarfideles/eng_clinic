@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">  <!-- Seu arquivo CSS personalizado -->
+    <title>Abertura de OS</title>
+    <style>
+        /* Estilos CSS personalizados */
+        .page-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #007BFF; /* Cor à sua escolha */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center page-title">Cadastro de Tipos de Abertura de OS</h1>
+    <div class="container">
+        <form method="POST" class="needs-validation" novalidate>
+            <div class="row g-3">
+                <label for="tipo_os">Tipo de Abertura de OS:</label>
+                <input type="text" name="tipo_os" id="tipo_os" required>
+            </div>
+            <div class="col-md-4">
+                <label for="observacoes">Observações</label>
+                <textarea class="form-control" id="observacoes" name="observacoes"></textarea>
+                <div class="invalid-feedback">
+                    Por favor, insira o contato.
+                </div>
+            </div>    
+
+                <!-- Adicione os demais campos aqui -->
+
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Cadastrar</button>
+                </div>
+                <div class="text-center">
+                    <a href="{{ url_for('listar_tipos_os') }}">Listar Tipos de Abertura de OS</a>
+                    </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+    <script>
+        // Adicione validação personalizada aqui, se necessário
+    </script>
+</body>
+</html>

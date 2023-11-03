@@ -230,7 +230,16 @@ class Cliente(db.Model):
     observacoes = db.Column(db.Text, nullable=True)
     diretor = db.Column(db.String(100), nullable=True)
     telefone_diretor = db.Column(db.String(15), nullable=True)
-    
+
+
+class TipoOS(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    tipo_os = db.Column(db.String(255), nullable=False)
+    observacoes = db.Column(db.Text, nullable=True)
+
+    def __init__(self, tipo_os, observacoes):
+        self.tipo_os = tipo_os
+        self.observacoes = observacoes
 
     
 
@@ -887,6 +896,27 @@ def cadastrar_item_material():
         return render_template('cadastro_materiais.html', itensmateriais=itensmateriais)
 
     return render_template('itens_material.html', form=form)
+
+
+
+@app.route('/cadastrar_tipo_os', methods=['GET', 'POST'])
+def cadastrar_tipo_os():
+    if request.method == 'POST':
+        tipo_os = request.form['tipo_os']
+        observacoes = request.form['observacoes']
+        novo_tipo_os = TipoOS(
+            tipo_os=tipo_os,
+            observacoes=observacoes
+            )
+        db.session.add(novo_tipo_os)
+        db.session.commit()
+        return redirect(url_for('listar_tipos_os'))
+    return render_template('cadastro_tipo_os.html')
+
+@app.route('/listar_tipos_os')
+def listar_tipos_os():
+    tipos_os = TipoOS.query.all()
+    return render_template('lista_tipos_os.html', tipos_os=tipos_os)
 
 
 
