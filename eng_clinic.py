@@ -248,6 +248,34 @@ class CentroCusto(db.Model):
     cliente_id = db.Column(db.Integer, db.ForeignKey('cliente.id_cliente'), nullable=False)
     
     cliente = db.relationship('Cliente', foreign_keys=[cliente_id])
+    
+class Setor(db.Model):
+    __tablename__ = 'setor'
+    id_setor = db.Column(db.Integer, primary_key=True)
+    codigo = db.Column(db.String(10))
+    setor = db.Column(db.String(255))
+    chefe = db.Column(db.String(255))
+    observacao = db.Column(db.Text)
+    cliente_id = db.Column(db.Integer, db.ForeignKey('cliente.id_cliente'), nullable=False)
+    cliente = db.relationship('Cliente', foreign_keys=[cliente_id])
+    
+    
+class EntradaAcessorios(db.Model):
+    __tablename__ = 'entrada_acessorios'
+    id_acessorio = db.Column(db.Integer, primary_key=True)
+    material_id = db.Column(db.Integer, db.ForeignKey('material.id'), nullable=False)
+    material = db.relationship('Material', foreign_keys=[material_id])
+    fabricante_id = db.Column(db.Integer, db.ForeignKey('cadfornecedor.id_fornecedor'), nullable=False)
+    fabricante = db.relationship('CadFornecedor', foreign_keys=[fabricante_id])
+    item_material = db.Column(db.String(255))
+    rm = db.Column(db.String(255))
+    situacao = db.Column(db.String(50))
+    aquisicao = db.Column(db.String(50))
+    setor_id = db.Column(db.Integer, db.ForeignKey('setor.id_setor'), nullable=False)
+    setor = db.relationship('Setor', foreign_keys=[setor_id])
+    cliente_id = db.Column(db.Integer, db.ForeignKey('cliente.id_cliente'), nullable=False)
+    cliente = db.relationship('Cliente', foreign_keys=[cliente_id])
+    localizacao = db.Column(db.String(255))    
 
 
     
@@ -980,6 +1008,170 @@ def excluir_centro_custo(id):
     return redirect(url_for('listar_centros_custo'))
 
 
+
+@app.route('/listar_setores')
+def listar_setores():
+    setores = Setor.query.all()
+    return render_template('lista_setores.html', setores=setores)
+
+@app.route('/setores/novo', methods=['GET', 'POST'])
+def adicionar_setor():
+    if request.method == 'POST':
+        codigo = request.form['codigo']
+        setor = request.form['setor']
+        cliente_id = request.form['cliente_id']
+        chefe = request.form['chefe']
+        observacao = request.form['observacao']
+
+        novo_setor = Setor(codigo=codigo, setor=setor, cliente_id=cliente_id, chefe=chefe, observacao=observacao)
+        db.session.add(novo_setor)
+        db.session.commit()
+        flash('Setor adicionado com sucesso!', 'success')
+        return redirect(url_for('listar_setores'))
+
+    clientes = Cliente.query.all()
+    return render_template('cadastro_setor.html', clientes=clientes)
+
+@app.route('/setores/editar/<int:id>', methods=['GET', 'POST'])
+def editar_setor(id):
+    setor = Setor.query.get(id)
+
+    if request.method == 'POST':
+        setor.codigo = request.form['codigo']
+        setor.setor = request.form['setor']
+        setor.cliente_id = request.form['cliente_id']
+        setor.chefe = request.form['chefe']
+        setor.observacao = request.form['observacao']
+
+        db.session.commit()
+        flash('Setor atualizado com sucesso!', 'success')
+        return redirect(url_for('listar_setores'))
+
+    clientes = Cliente.query.all()
+    return render_template('editar_setor.html', setor=setor, clientes=clientes)
+
+@app.route('/setores/excluir/<int:id>')
+def excluir_setor(id):
+    setor = Setor.query.get(id)
+    db.session.delete(setor)
+    db.session.commit()
+    flash('Setor excluído com sucesso!', 'success')
+    return redirect(url_for('listar_setores'))
+
+
+@app.route('/acessorios/novo', methods=['GET', 'POST'])
+def adicionar_acessorio():
+    if request.method == 'POST':
+        material_id = request.form['material_id']
+        fabricante_id = request.form['fabricante_id']
+        item_material = request.form['item_material']
+        rm = request.form['rm']
+        situacao = request.form['situacao']
+        aquisicao = request.form['aquisicao']
+        setor_id = request.form['setor_id']
+        cliente_id = request.form['cliente_id']
+        localizacao = request.form['localizacao']
+
+        acessorio = EntradaAcessorios(
+            material_id=material_id,
+            fabricante_id=fabricante_id,
+            item_material=item_material,
+            rm=rm,
+            situacao=situacao,
+            aquisicao=aquisicao,
+            setor_id=setor_id,
+            cliente_id=cliente_id,
+            localizacao=localizacao
+        )
+
+        db.session.add(acessorio)
+        db.session.commit()
+        flash('Acessório adicionado com sucesso!', 'success')
+        return redirect(url_for('listar_acessorios'))
+
+    # Recupere os materiais, fabricantes, setores e clientes para preencher o formulário
+    materiais = Material.query.all()
+    fabricantes = CadFornecedor.query.all()
+    setores = Setor.query.all()
+    clientes = Cliente.query.all()
+
+    return render_template(
+        'cadastro_acessorio.html',
+        materiais=materiais,
+        fabricantes=fabricantes,
+        setores=setores,
+        clientes=clientes
+    )
+    
+@app.route('/listar_acessorios')
+def listar_acessorios():
+    acessorios = EntradaAcessorios.query.all()
+    return render_template('lista_acessorios.html', acessorios=acessorios)
+
+@app.route('/acessorios/editar/<int:id>', methods=['GET', 'POST'])
+def editar_acessorio(id):
+    acessorio = EntradaAcessorios.query.get(id)
+
+    if request.method == 'POST':
+        # Obtenha os dados do formulário
+        material_id = request.form['material_id']
+        fabricante_id = request.form['fabricante_id']
+        item_material = request.form['item_material']
+        rm = request.form['rm']
+        situacao = request.form['situacao']
+        aquisicao = request.form['aquisicao']
+        setor_id = request.form['setor_id']
+        cliente_id = request.form['cliente_id']
+        localizacao = request.form['localizacao']
+
+        # Verifique se os campos de ID não estão vazios ('')
+        if material_id and fabricante_id and setor_id and cliente_id:
+            # Converta os valores para inteiros
+            material_id = int(material_id)
+            fabricante_id = int(fabricante_id)
+            setor_id = int(setor_id)
+            cliente_id = int(cliente_id)
+
+            # Atualize os campos do acessório
+            acessorio.material_id = material_id
+            acessorio.fabricante_id = fabricante_id
+            acessorio.item_material = item_material
+            acessorio.rm = rm
+            acessorio.situacao = situacao
+            acessorio.aquisicao = aquisicao
+            acessorio.setor_id = setor_id
+            acessorio.cliente_id = cliente_id
+            acessorio.localizacao = localizacao
+
+            db.session.commit()
+            flash('Acessório atualizado com sucesso!', 'success')
+            return redirect(url_for('listar_acessorios'))
+        else:
+            flash('Certifique-se de preencher todos os campos obrigatórios.', 'danger')
+
+    # Recupere os materiais, fabricantes, setores e clientes para preencher o formulário
+    materiais = Material.query.all()
+    fabricantes = CadFornecedor.query.all()
+    setores = Setor.query.all()
+    clientes = Cliente.query.all()
+
+    return render_template(
+        'editar_acessorio.html',
+        acessorio=acessorio,
+        materiais=materiais,
+        fabricantes=fabricantes,
+        setores=setores,
+        clientes=clientes
+    )
+    
+
+@app.route('/acessorios/excluir/<int:id>')
+def excluir_acessorio(id):
+    acessorio = db.session.query(EntradaAcessorios).get(id)
+    db.session.delete(acessorio)
+    db.session.commit()
+    flash('Acessório excluído com sucesso!', 'success')
+    return redirect(url_for('listar_acessorios'))    
 
 
 if __name__ == "__main__":

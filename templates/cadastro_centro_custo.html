@@ -22,24 +22,45 @@
         <h1 class="text-center page-title">Cadastro de Centro de Custo</h1>
         <form method="POST">
             <!-- Campo para o código do centro de custo -->
-            <label for="codigo">Código do Centro de Custo:</label>
-            <input type="text" name="codigo" id="codigo" value="{% if centro_custo %}{{ centro_custo.codigo }}{% endif %}" required>
-    
-            <!-- Campo para seleção do cliente -->
-            <label for="cliente_id">Cliente:</label>
-            <select name="cliente_id" id="cliente_id" required>
-                {% for cliente in clientes %}
-                    <option value="{{ cliente.id_cliente }}" {% if centro_custo and centro_custo.cliente_id == cliente.id_cliente %}selected{% endif %}>
-                        {{ cliente.nome_fantasia }}
-                    </option>
-                {% endfor %}
-            </select>
-    
-            <button type="submit">Salvar</button>
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <label for="codigo">Código do Centro de Custo:</label>
+                        <input type="text" name="codigo" id="codigo" value="{% if centro_custo %}{{ centro_custo.codigo }}{% endif %}" required>
+                    </div>
+                </div>
+        
+                <!-- Campo para seleção do cliente -->
+                <div class="row">
+                    <div class="col-12">
+                        <label for="cliente_id">Cliente:</label>
+                        <select name="cliente_id" id="cliente_id" required>
+                            {% for cliente in clientes %}
+                            <option value="{{ cliente.id_cliente }}" {% if centro_custo and centro_custo.cliente_id == cliente.id_cliente %}selected{% endif %}>
+                                {{ cliente.nome_fantasia }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+        
+                <div class="row">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </div>
+            </div>
         </form>
+        
+    <div class="container">
         <div class="text-center">
         <a href="{{ url_for('listar_centros_custo') }}">Voltar para a lista de centros de custo</a>
         </div>
     </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
 </body>
 </html>

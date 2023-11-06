@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de acessorios</title>
+    <!-- Adicione as referências ao Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Adicione seu arquivo CSS personalizado (opcional) -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Estilos CSS personalizados */
+        .page-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #007BFF; /* Cor à sua escolha */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center page-title">Cadastro de acessorios</h1>
+        <form method="POST">
+            <!-- Campo para o código/sigla do setor -->
+            <div class="form-group">
+                <label for="material_id">Material:</label>
+                <select name="material_id" id="material_id" required>
+                    {% for material in materiais %}
+                        <option value="{{ material.id }}">{{ material.material }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Campo para o nome do setor -->
+            <div class="form-group">
+                <label for="fabricante_id">Fabricante:</label>
+                <select name="fabricante_id" id="fabricante_id" required>
+                    {% for fabricante in fabricantes %}
+                        <option value="{{ fabricante.id_fornecedor }}">{{ fabricante.Nome_Fantasia }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Campo para seleção do cliente -->
+            <div class="form-group">
+                <label for="item_material">Ítem de Material:</label>
+                <input type="text" name="item_material" id="item_material" required>
+            </div>
+
+            <!-- Campo para o chefe do setor -->
+            <div class="form-group">
+                <label for="rm">R.M.:</label>
+                <input type="text" name="rm" id="rm">
+            </div>
+
+            <!-- Campo para observações -->
+            <div class="form-group">
+                <label for="situacao">Situação:</label>
+                <select name="situacao" id="situacao" required>
+                    <option value="Operacional">Operacional</option>
+                    <option value="Restrições">Restrições</option>
+                    <option value="Inoperante">Inoperante</option>
+                    <option value="Alienado">Alienado</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="aquisicao">Aquisição:</label>
+                <select name="aquisicao" id="aquisicao" required>
+                    <option value="Proprio">Próprio</option>
+                    <option value="Comodato">Comodato</option>
+                    <option value="Emprestimo">Empréstimo</option>
+                    <option value="Locação">Locação</option>
+                    <option value="Doação">Doação</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="setor_id">Setor:</label>
+                <select name="setor_id" id="setor_id" required>
+                    {% for setor in setores %}
+                        <option value="{{ setor.id_setor }}">{{ setor.setor }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="cliente_id">Cliente:</label>
+                <select name="cliente_id" id="cliente_id" required>
+                    {% for cliente in clientes %}
+                        <option value="{{ cliente.id_cliente }}">{{ cliente.nome_fantasia }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="localizacao">Localização:</label>
+                <input type="text" name="localizacao" id="localizacao">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+    </div>
+
+    <!-- Adicione as referências ao Bootstrap JS (opcional) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

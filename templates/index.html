@@ -135,54 +135,66 @@
         </div>
         <!-- About End -->
         <div class="container-xxl bg-primary newsletter my-7 wow fadeInUp" data-wow-delay="0.1s">
-            <div class="container px-lg-7">
+            <div class="container px-lg-9">
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <h1 class="text-white mb-4 animated zoomIn">Gestão de cadastros:</h1>
-                        <p class="text-white pb-3 animated zoomIn">Cadastro de Usuários, fornecedores, equipamentos, agendamentos, etc...</p>
+                        <p class="text-white pb-3 animated zoomIn">Cadastro de Usuários, fornecedores, equipamentos, etc...</p>
                     </div>
                     <div class="col-md-6">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">Cadastros Gerenciais</button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item btn btn-Warning" active href="/registro">Cadastro de Usuários</a>
-                                        <a class="dropdown-item btn btn-Warning" active href="/cadastro_cliente">Cadastro de Clientes</a>
-                                        <a class="dropdown-item btn btn-Warning" active href="/listar_clientes">Listar | Editar | Excluir Clientes</a>
-                                        <a class="dropdown-item btn btn-Warning" active href="/cadastro_fornecedor">Cadastro de Fornecedores</a>
-                                        <a class="dropdown-item btn btn-Warning" active href="/fornecedores_list">Lista de Fornecedores</a>
+                                        <a class="dropdown-item btn btn-warning" href="/registro">Cadastro de Usuários</a>
+                                        <a class="dropdown-item btn btn-warning" href="/cadastro_cliente">Cadastro de Clientes</a>
+                                        <a class="dropdown-item btn btn-warning" href="/listar_clientes">Listar | Editar | Excluir Clientes</a>
+                                        <a class="dropdown-item btn btn-warning" href="/cadastro_fornecedor">Cadastro de Fornecedores</a>
+                                        <a class="dropdown-item btn btn-warning" href="/fornecedores_list">Lista de Fornecedores</a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">Cadastro de Materiais, Equipamentos</button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item btn btn-Warning" active href="/cadastro_materiais">Cadastro de Materiais</a>
-                                    <a class="dropdown-item btn btn-Warning" active href="/listar_materiais">Listar | Editar | Excluir Materiais</a>
-                                    <a class="dropdown-item btn btn-Warning" active href="/item_material/cadastrar">Uso de Materiais</a>
+                                    <a class="dropdown-item btn btn-warning" href="/cadastro_materiais">Cadastro de Materiais</a>
+                                    <a class="dropdown-item btn btn-warning" href="/listar_materiais">Listar | Editar | Excluir Materiais</a>
+                                    <a class="dropdown-item btn btn-warning" href="/item_material/cadastrar">Uso de Materiais</a>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">Agendamentos</button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item btn btn-warning" href="/">Agendamentos</a>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">Agendamentos</button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item btn btn-Warning" active href="/">Agendamentos</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
                                 <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">Ordens de Serviços</button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item btn btn-Warning" active href="/cadastrar_tipo_os">Cadastro de tipos de OS</a>
-                                    <a class="dropdown-item btn btn-Warning" active href="/">Abertura de OS</a>
+                                    <a class="dropdown-item btn btn-warning" href="/cadastrar_tipo_os">Cadastro de tipos de OS</a>
+                                    <a class="dropdown-item btn btn-warning" href="/">Abertura de OS</a>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">Centro de Custo</button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item btn btn-Warning" active href="/centros_custo/novo">Cadastros de Centro de Custo</a>
-                                    <a class="dropdown-item btn btn-Warning" active href="/centros_custo">Lista de centro de custos</a>
+                                    <a class="dropdown-item btn btn-warning" href="/centros_custo/novo">Cadastros de Centro de Custo</a>
+                                    <a class="dropdown-item btn btn-warning" href="/centros_custo">Lista de centro de custos</a>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">Cadastro de Setores</button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item btn btn-warning" href="/setores/novo">Cadastros de Setores</a>
+                                    <a class="dropdown-item btn btn-warning" href="/listar_setores">Lista setores</a>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">Cadastro de Acessorios</button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item btn btn-warning" href="/acessorios/novo">Cadastros de Acessorios</a>
+                                    <a class="dropdown-item btn btn-warning" href="/listar_acessorios">Lista acessorios</a>
                                 </div>
                             </div>
                         </div>
@@ -191,7 +203,6 @@
             </div>
         </div>
         
-   
                         
                         
                         

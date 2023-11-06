@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Atualizar dados dos fornecedores</title>
+    <style>
+        /* Estilos CSS personalizados */
+        .page-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center page-title">Atualizar dados dos fornecedores</h1>
+        <div class="container">
+            <form method="POST" action="{{ url_for('editar_acessorio', id=acessorio.id_acessorio) }}" class="form-horizontal" novalidate>
+                <div class="form-group row">
+                    <label for="material_id" class="col-sm-3 col-form-label">Material:</label>
+                    <div class="col-sm-3">
+                        <select name="material_id" id="material_id" class="form-control" required>
+                            {% for material in materiais %}
+                            <option value="{{ material.id_material }}" {% if acessorio.material_id == material.id_material %}selected{% endif %}>
+                                {{ material.material }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <div class="invalid-feedback">
+                            Este campo é obrigatório.
+                        </div>
+                    </div>
+                    <label for="fabricante_id" class="col-sm-3 col-form-label">Fabricante:</label>
+                    <div class="col-sm-3">
+                        <select name="fabricante_id" id="fabricante_id" class="form-control" required>
+                            {% for fabricante in fabricantes %}
+                            <option value="{{ fabricante.id_fornecedor }}" {% if acessorio.fabricante_id == fabricante.id_fornecedor %}selected{% endif %}>
+                                {{ fabricante.Nome_Fantasia }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <div class="invalid-feedback">
+                            Por favor, selecione um fabricante.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="item_material" class="col-sm-3 col-form-label">Ítem de Material:</label>
+                    <div class="col-sm-3">
+                        <input type="text" name="item_material" id="item_material" value="{{ acessorio.item_material }}" class="form-control" required>
+                        <div class="invalid-feedback">
+                            Este campo é obrigatório.
+                        </div>
+                    </div>
+                    <label for="rm" class="col-sm-3 col-form-label">R.M.:</label>
+                    <div class="col-sm-3">
+                        <input type="text" name="rm" id="rm" value="{{ acessorio.rm }}" class="form-control">
+                        <div class="invalid-feedback">
+                            Por favor, insira o Endereço.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="situacao" class="col-sm-3 col-form-label">Situação:</label>
+                    <div class="col-sm-3">
+                        <select name="situacao" id="situacao" class="form-control" required>
+                            <option value="Operacional" {% if acessorio.situacao == 'Operacional' %}selected{% endif %}>Operacional</option>
+                            <option value="Restrições" {% if acessorio.situacao == 'Restrições' %}selected{% endif %}>Restrições</option>
+                            <option value="Inoperante" {% if acessorio.situacao == 'Inoperante' %}selected{% endif %}>Inoperante</option>
+                            <option value="Alienado" {% if acessorio.situacao == 'Alienado' %}selected{% endif %}>Alienado</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Por favor, insira o Numero.
+                        </div>
+                    </div>
+                    <label for="aquisicao" class="col-sm-3 col-form-label">Aquisição:</label>
+                    <div class="col-sm-3">
+                        <select name="aquisicao" id="aquisicao" class="form-control" required>
+                            <option value="Próprio" {% if acessorio.aquisicao == 'Próprio' %}selected{% endif %}>Próprio</option>
+                            <option value="Comodato" {% if acessorio.aquisicao == 'Comodato' %}selected{% endif %}>Comodato</option>
+                            <option value="Empréstimo" {% if acessorio.aquisicao == 'Empréstimo' %}selected{% endif %}>Empréstimo</option>
+                            <option value="Locação" {% if acessorio.aquisicao == 'Locação' %}selected{% endif %}>Locação</option>
+                            <option value="Doação" {% if acessorio.aquisicao == 'Doação' %}selected{% endif %}>Doação</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Por favor, insira o Numero.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="setor_id" class="col-sm-3 col-form-label">Setor:</label>
+                    <div class="col-sm-3">
+                        <select name="setor_id" id="setor_id" class="form-control" required>
+                            {% for setor in setores %}
+                            <option value="{{ setor.id_setor }}" {% if acessorio.setor_id == setor.id_setor %}selected{% endif %}>
+                                {{ setor.setor }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <div class="invalid-feedback">
+                            Por favor, insira o bairro.
+                        </div>
+                    </div>
+                    <label for="cliente_id" class="col-sm-3 col-form-label">Cliente:</label>
+                    <div class="col-sm-3">
+                        <select name="cliente_id" id="cliente_id" class="form-control" required>
+                            {% for cliente in clientes %}
+                            <option value="{{ cliente.id_cliente }}" {% if acessorio.cliente_id == cliente.id_cliente %}selected{% endif %}>
+                                {{ cliente.nome_fantasia }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <div class="invalid-feedback">
+                            Por favor, insira .
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="localizacao" class="col-sm-3 col-form-label">Localização:</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="localizacao" id="localizacao" value="{{ acessorio.localizacao }}" class="form-control">
+                        <div class="invalid-feedback">
+                            Por favor, insira a localização.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-primary">Atualizar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

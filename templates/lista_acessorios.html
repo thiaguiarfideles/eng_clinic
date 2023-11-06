@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">  <!-- Seu arquivo CSS personalizado -->
+    <title>Listar Acessorios</title>
+    <style>
+        /* Estilos CSS personalizados */
+        .page-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #007BFF; /* Cor à sua escolha */
+        }
+        td {
+            font-size: 13px;
+          }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center page-title">Listar Acessorios</h1>
+        <div class="container">
+            <table class="table">
+                <tr>
+                    <th>ID</th>
+                    <th>Material</th>
+                    <th>Fabricante</th>
+                    <th>Ítem de Material</th>
+                    <th>R.M.</th>
+                    <th>Situação</th>
+                    <th>Aquisição</th>
+                    <th>Setor</th>
+                    <th>Cliente</th>
+                    <th>Localização</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for acessorio in acessorios %}
+                    <tr>
+                        <td>{{ acessorio.id_acessorio }}</td>
+                        <td>{{ acessorio.material.material }}</td>
+                        <td>{{ acessorio.fabricante.Nome_Fantasia }}</td>
+                        <td>{{ acessorio.item_material }}</td>
+                        <td>{{ acessorio.rm }}</td>
+                        <td>{{ acessorio.situacao }}</td>
+                        <td>{{ acessorio.aquisicao }}</td>
+                        <td>{{ acessorio.setor.setor }}</td>
+                        <td>{{ acessorio.cliente.nome_fantasia }}</td>
+                        <td>{{ acessorio.localizacao }}</td>
+                        <td>
+                            <a href="{{ url_for('editar_acessorio', id=acessorio.id_acessorio) }}" class="btn btn-primary">Editar</a>
+                            <form method="POST" action="{{ url_for('excluir_acessorio', id=acessorio.id_acessorio) }}" style="display: inline;">
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir este acessorio?')">Excluir</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+
+    <script>
+        // Adicione validação personalizada aqui, se necessário
+    </script>
+</body>
+</html>
