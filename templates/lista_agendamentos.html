@@ -29,16 +29,19 @@
                         <th>Tipo de Serviço</th>
                         <th>Cliente</th>
                         <th>Observações</th>
+                        <th>Status</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for agendamento in agendamentos %}
+                    
                     <tr>
                         <td>{{ agendamento.data_agendamento }}</td>
                         <td>{{ agendamento.tipo_servico }}</td>
                         <td>{{ agendamento.cliente.nome_fantasia }}</td>
                         <td>{{ agendamento.observacoes }}</td>
+                        <td class="{% if agendamento.status == 'agendado' %}table-warning{% elif agendamento.status == 'executado' %}table-success{% endif %}">{{ agendamento.status }}</td>
                         <td>
                             <a href="{{ url_for('editar_agendamento', id=agendamento.id_agendamento) }}" class="btn btn-primary">Editar</a>
                             <form method="POST" action="{{ url_for('excluir_agendamento', id=agendamento.id_agendamento) }}" style="display: inline;">

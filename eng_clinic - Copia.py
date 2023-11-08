@@ -15,7 +15,6 @@ from wtforms.validators import DataRequired, Length, Email
 #from wtforms import StringField, SelectField, FileField
 from wtforms.validators import DataRequired
 from werkzeug.utils import secure_filename
-from enviar_email_administrador import enviar_email_administrador
 from utils import generate_random_token
 from flask_migrate import Migrate
 #from wtforms.fields.html5 import DateField
@@ -65,7 +64,6 @@ migrate = Migrate(app, db)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 bcrypt = Bcrypt(app)
-
 
 UPLOAD_FOLDER = 'uploads'  # Pasta onde os arquivos serão salvos
 ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png', 'gif'}  # Extensões de arquivo permitidas
@@ -1193,16 +1191,6 @@ def excluir_acessorio(id):
 @app.route('/listar_agendamentos')
 def listar_agendamentos():
     agendamentos = Agendamento.query.all()
-
-    # Verifica se o agendamento foi executado após 24 horas e envia um email
-    for agendamento in agendamentos:
-        if (
-            agendamento.status == 'agendado'
-            and (datetime.utcnow() - agendamento.data_lancamento).total_seconds() >= 86400
-        ):
-            # Envie um email para o administrador informando que o agendamento não foi atualizado
-            enviar_email_administrador(agendamento)
-
     return render_template('lista_agendamentos.html', agendamentos=agendamentos)
 
 
@@ -1249,7 +1237,6 @@ def editar_agendamento(id):
         agendamento.tipo_servico = request.form['tipo_servico']
         agendamento.cliente_id = request.form['cliente_id']
         agendamento.observacoes = request.form['observacoes']
-        agendamento.status = request.form['status']  # Atualiza o status
 
         db.session.commit()
         flash('Agendamento atualizado com sucesso!', 'success')
@@ -1258,7 +1245,6 @@ def editar_agendamento(id):
     # Busque a lista de clientes para o formulário
     clientes = Cliente.query.all()
     return render_template('editar_agendamento.html', agendamento=agendamento, clientes=clientes)
-
 
 
 @app.route('/agendamentos/excluir/<int:id>')
