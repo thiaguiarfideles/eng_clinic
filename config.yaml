@@ -8,3 +8,13 @@ PG_USER: "postgres"
 PG_PASSWORD: "pgadmin"
 PG_HOST: "127.0.0.1"
 PG_PORT: "5432"
+
+
+MAIL_SERVER: "smtp.gmail.com"
+MAIL_PORT: "587"
+MAIL_USE_TLS: "True"
+MAIL_USE_SSL: "False"
+MAIL_USERNAME: "seumkt@gmail.com"
+MAIL_PASSWORD: "pmsertnxkggkqqvc"
+MAIL_DEFAULT_SENDER: "seumkt@gmail.com"
+

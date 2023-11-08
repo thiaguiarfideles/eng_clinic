@@ -1,6 +1,5 @@
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 import smtplib
+from email.mime.text import MIMEText
 from flask import Flask, render_template, request,flash, url_for, redirect, current_app, Response
 from datetime import date, datetime, timedelta
 from flask_sqlalchemy import SQLAlchemy
@@ -40,8 +39,12 @@ app = Flask(__name__)
 app.secret_key = 'uaie4q*(eo7ms*8vl_mde6x+a(&vx8nphm2o5n^=h0=p^3@u2'
 
 
-EMAIL_USERNAME = config["EMAIL_USERNAME"]
-EMAIL_PASSWORD = config["EMAIL_PASSWORD"]
+# Configurações do servidor de e-mail
+EMAIL_FROM = 'seumkt@gmail.com' #email de origem 
+EMAIL_TO = 'thiaguiarfideles@live.com' #email de destino
+SENHA = 'pmsertnxkggkqqvc'
+
+
 
 PG_DBNAME = config["PG_DBNAME"]
 PG_USER = config["PG_USER"]
@@ -277,6 +280,17 @@ class EntradaAcessorios(db.Model):
     cliente = db.relationship('Cliente', foreign_keys=[cliente_id])
     localizacao = db.Column(db.String(255))    
 
+
+class Agendamento(db.Model):
+    __tablename__ = 'agendamento'
+
+    id_agendamento = db.Column(db.Integer, primary_key=True)
+    data_agendamento = db.Column(db.Date, nullable=False)
+    data_lancamento = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    tipo_servico = db.Column(db.String(20), nullable=False)
+    cliente_id = db.Column(db.Integer, db.ForeignKey('cliente.id_cliente'), nullable=False)
+    cliente = db.relationship('Cliente', foreign_keys=[cliente_id])
+    observacoes = db.Column(db.String(255))
 
     
 
@@ -1171,7 +1185,77 @@ def excluir_acessorio(id):
     db.session.delete(acessorio)
     db.session.commit()
     flash('Acessório excluído com sucesso!', 'success')
-    return redirect(url_for('listar_acessorios'))    
+    return redirect(url_for('listar_acessorios')) 
+
+@app.route('/listar_agendamentos')
+def listar_agendamentos():
+    agendamentos = Agendamento.query.all()
+    return render_template('lista_agendamentos.html', agendamentos=agendamentos)
+
+
+@app.route('/agendamentos/novo', methods=['GET', 'POST'])
+def adicionar_agendamento():
+    if request.method == 'POST':
+        data_agendamento = request.form['data_agendamento']
+        tipo_servico = request.form['tipo_servico']
+        cliente_id = request.form['cliente_id']
+        observacoes = request.form['observacoes']
+
+        agendamento = Agendamento(data_agendamento=data_agendamento, tipo_servico=tipo_servico, cliente_id=cliente_id, observacoes=observacoes)
+        db.session.add(agendamento)
+        db.session.commit()
+        flash('Agendamento adicionado com sucesso!', 'success')
+
+        # Envia um e-mail informando o problema
+        assunto = 'Novo Agendamento Criado'
+        corpo = f'Um novo agendamento foi criado.\nData do Agendamento: {data_agendamento}\nObservações: {agendamento.observacoes}\nTipo Serviço:{agendamento.tipo_servico}\nNome Cliente:{ agendamento.cliente.nome_fantasia }'
+        msg = MIMEText(corpo)
+        msg['From'] = EMAIL_FROM
+        msg['To'] = EMAIL_TO
+        msg['Subject'] = assunto
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login(EMAIL_FROM, SENHA)
+        server.sendmail(EMAIL_FROM, EMAIL_TO, msg.as_string())
+        server.quit()
+
+        return redirect(url_for('listar_agendamentos'))
+
+    # Busque a lista de clientes para o formulário
+    clientes = Cliente.query.all()
+    return render_template('cadastro_agendamento.html', clientes=clientes)
+
+
+
+@app.route('/agendamentos/editar/<int:id>', methods=['GET', 'POST'])
+def editar_agendamento(id):
+    agendamento = Agendamento.query.get(id)
+
+    if request.method == 'POST':
+        agendamento.data_agendamento = request.form['data_agendamento']
+        agendamento.tipo_servico = request.form['tipo_servico']
+        agendamento.cliente_id = request.form['cliente_id']
+        agendamento.observacoes = request.form['observacoes']
+
+        db.session.commit()
+        flash('Agendamento atualizado com sucesso!', 'success')
+        return redirect(url_for('listar_agendamentos'))
+
+    # Busque a lista de clientes para o formulário
+    clientes = Cliente.query.all()
+    return render_template('editar_agendamento.html', agendamento=agendamento, clientes=clientes)
+
+
+@app.route('/agendamentos/excluir/<int:id>')
+def excluir_agendamento(id):
+    agendamento = Agendamento.query.get(id)
+    if agendamento:
+        db.session.delete(agendamento)
+        db.session.commit()
+        flash('Agendamento excluído com sucesso!', 'success')
+    return redirect(url_for('listar_agendamentos'))
+
+   
 
 
 if __name__ == "__main__":

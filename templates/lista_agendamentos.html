@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">  <!-- Seu arquivo CSS personalizado -->
+    <title>Lista de Agendamentos</title>
+    <style>
+        /* Estilos CSS personalizados */
+        .page-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #007BFF; /* Cor à sua escolha */
+        }
+        td {
+            font-size: 13px;
+          }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center page-title">Lista de Agendamentos</h1>
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Data de Agendamento</th>
+                        <th>Tipo de Serviço</th>
+                        <th>Cliente</th>
+                        <th>Observações</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for agendamento in agendamentos %}
+                    <tr>
+                        <td>{{ agendamento.data_agendamento }}</td>
+                        <td>{{ agendamento.tipo_servico }}</td>
+                        <td>{{ agendamento.cliente.nome_fantasia }}</td>
+                        <td>{{ agendamento.observacoes }}</td>
+                        <td>
+                            <a href="{{ url_for('editar_agendamento', id=agendamento.id_agendamento) }}" class="btn btn-primary">Editar</a>
+                            <form method="POST" action="{{ url_for('excluir_agendamento', id=agendamento.id_agendamento) }}" style="display: inline;">
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir este agendamento?')">Excluir</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
