@@ -34,6 +34,29 @@
     <!-- Template Stylesheet -->
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
     <style>
+            /* Estilos CSS personalizados */
+            .newsletter {
+                background-color: #007BFF;
+                padding: 50px 0;
+            }
+            .newsletter h1 {
+                color: #ff0000
+                font-size: 2rem;
+            }
+            .newsletter p {
+                color: #ff0000
+            }
+            .dropdown-menu .dropdown-item {
+                background-color: #fbf405;
+                border: none;
+                color: #161616
+            }
+            .dropdown-menu .dropdown-item:hover {
+                background-color: #0000ff;
+            }
+            .btn-group {
+                margin-bottom: 10px;
+            }
     </style>
 </head>
 <body>
@@ -134,73 +157,83 @@
             </div>
         </div>
         <!-- About End -->
-        <div class="container-xxl bg-primary newsletter my-7 wow fadeInUp" data-wow-delay="0.1s">
-            <div class="container px-lg-9">
-                <div class="row align-items-center">
-                    <div class="col-md-6">
-                        <h1 class="text-white mb-4 animated zoomIn">Gestão de cadastros:</h1>
-                        <p class="text-white pb-3 animated zoomIn">Cadastro de Usuários, fornecedores, equipamentos, etc...</p>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">Cadastros Gerenciais</button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item btn btn-warning" href="/registro">Cadastro de Usuários</a>
-                                        <a class="dropdown-item btn btn-warning" href="/cadastro_cliente">Cadastro de Clientes</a>
-                                        <a class="dropdown-item btn btn-warning" href="/listar_clientes">Listar | Editar | Excluir Clientes</a>
-                                        <a class="dropdown-item btn btn-warning" href="/cadastro_fornecedor">Cadastro de Fornecedores</a>
-                                        <a class="dropdown-item btn btn-warning" href="/fornecedores_list">Lista de Fornecedores</a>
-                                    </div>
-                                </div>
-                            <div class="col-md-3">
-                                <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">Cadastro de Materiais, Equipamentos</button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item btn btn-warning" href="/cadastro_materiais">Cadastro de Materiais</a>
-                                    <a class="dropdown-item btn btn-warning" href="/listar_materiais">Listar | Editar | Excluir Materiais</a>
-                                    <a class="dropdown-item btn btn-warning" href="/item_material/cadastrar">Uso de Materiais</a>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">Agendamentos</button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item btn btn-warning" href="/agendamentos/novo">Agendamentos</a>
-                                    <a class="dropdown-item btn btn-warning" href="/listar_agendamentos">listar Agendamentos</a>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">Ordens de Serviços</button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item btn btn-warning" href="/cadastrar_tipo_os">Cadastro de tipos de OS</a>
-                                    <a class="dropdown-item btn btn-warning" href="/">Abertura de OS</a>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">Centro de Custo</button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item btn btn-warning" href="/centros_custo/novo">Cadastros de Centro de Custo</a>
-                                    <a class="dropdown-item btn btn-warning" href="/centros_custo">Lista de centro de custos</a>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">Cadastro de Setores</button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item btn btn-warning" href="/setores/novo">Cadastros de Setores</a>
-                                    <a class="dropdown-item btn btn-warning" href="/listar_setores">Lista setores</a>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <button type="button" class="btn btn-warning dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">Cadastro de Acessorios</button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item btn btn-warning" href="/acessorios/novo">Cadastros de Acessorios</a>
-                                    <a class="dropdown-item btn btn-warning" href="/listar_acessorios">Lista acessorios</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="container-xxl bg-primary newsletter my-2 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="container px-lg-2">
+                            <h2 class="text-white">Gestão de Cadastros.</h2>
+                <div class="btn-group">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Cadastros Gerenciais
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="/registro">Cadastro de Usuários</a></li>
+                      <li><a class="dropdown-item" href="/cadastro_cliente">Cadastro de Clientes</a></li>
+                      <li><a class="dropdown-item" href="/listar_clientes">Listar | Editar | Excluir Clientes</a></li>
+                      <li><a class="dropdown-item" href="/cadastro_fornecedor">Cadastro de Fornecedores</a>
+                      <li><a class="dropdown-item" href="/fornecedores_list">Lista de Fornecedores</a>
+                    </ul>
+                  </div>
+                  
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                      Cadastro de Materiais, Equipamentos
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                      <li><a class="dropdown-item" href="/cadastro_materiais">Cadastro de Materiais</a>
+                      <li><a class="dropdown-item" href="/listar_materiais">Listar | Editar | Excluir Materiais</a>
+                      <li><a class="dropdown-item" href="/item_material/cadastrar">Uso de Materiais</a>
+                    </ul>
+                  </div>
+                  
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                      Agendamentos
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-lg-end">
+                      <li><a class="dropdown-item" href="/agendamentos/novo">Agendamentos</a>
+                      <li><a class="dropdown-item" href="/listar_agendamentos">listar Agendamentos</a>
+                    </ul>
+                  </div>
+                  
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                      Ordens de Serviços
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
+                      <li><a class="dropdown-item" href="/cadastrar_tipo_os">Cadastro de tipos de OS</a>
+                      <li><a class="dropdown-item" href="/">Abertura de OS</a>
+                      <li><a class="dropdown-item" href="#">Menu item</a></li>
+                    </ul>
+                  </div>
+                  
+                  <div class="btn-group dropstart">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                      Centro de Custo
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="/centros_custo/novo">Cadastros de Centro de Custo</a>
+                      <li><a class="dropdown-item" href="/centros_custo">Lista de centro de custos</a>
+                    </ul>
+                  </div>
+                  
+                  <div class="btn-group dropend">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                      Cadastro de Setores
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="/setores/novo">Cadastros de Setores</a>
+                      <li><a class="dropdown-item" href="/listar_setores">Lista setores</a>
+                    </ul>
+                  </div>
+                  
+                  <div class="btn-group dropup">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Cadastros de Acessorios
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="/acessorios/novo">Cadastros de Acessorios</a>
+                      <li><a class="dropdown-item" href="/listar_acessorios">Lista acessorios</a>
+                    </ul>
+                  </div>
         </div>
     </div>
         

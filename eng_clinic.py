@@ -1192,7 +1192,28 @@ def excluir_acessorio(id):
 
 @app.route('/listar_agendamentos')
 def listar_agendamentos():
-    agendamentos = Agendamento.query.all()
+    # Obtenha os parâmetros de pesquisa da URL
+    search_query = request.args.get('search_query', default='', type=str)
+    status = request.args.get('status', default='', type=str)
+    cliente = request.args.get('cliente', default='', type=str)
+    tipo_servico = request.args.get('tipo_servico', default='', type=str)
+    data_agendamento = request.args.get('data_agendamento', default='', type=str)
+
+    # Inicie com uma consulta que retorna todos os agendamentos
+    query = Agendamento.query
+
+    # Aplicar filtros com base nos parâmetros de pesquisa
+    if status:
+        query = query.filter(Agendamento.status == status)
+    if cliente:
+        query = query.filter(Agendamento.cliente.has(Cliente.nome_fantasia.ilike(f'%{cliente}%')))
+    if tipo_servico:
+        query = query.filter(Agendamento.tipo_servico.ilike(f'%{tipo_servico}%'))
+    if data_agendamento:
+        query = query.filter(Agendamento.data_agendamento == data_agendamento)
+
+    # Execute a consulta
+    agendamentos = query.all()
 
     # Verifica se o agendamento foi executado após 24 horas e envia um email
     for agendamento in agendamentos:
