@@ -999,49 +999,30 @@ def adicionar_centro_custo():
 # Rota para editar um centro de custo
 @app.route('/centros_custo/editar/<int:id>', methods=['GET', 'POST'])
 def editar_centro_custo(id):
-    try:
-        centro_custo = CentroCusto.query.get(id)
+    centro_custo = CentroCusto.query.get(id)
+    
+    if request.method == 'POST':
+        codigo = request.form['codigo']
+        cliente_id = request.form['cliente_id']
+        
+        centro_custo.codigo = codigo
+        centro_custo.cliente_id = cliente_id
 
-        if centro_custo is None:
-            flash('Centro de custo não encontrado.', 'danger')
-            return redirect(url_for('listar_centros_custo'))
-
-        if request.method == 'POST':
-            codigo = request.form['codigo']
-            cliente_id = request.form['cliente_id']
-
-            centro_custo.codigo = codigo
-            centro_custo.cliente_id = cliente_id
-
-            db.session.commit()
-            flash('Centro de custo atualizado com sucesso!', 'success')
-            return redirect(url_for('listar_centros_custo'))
-
-        # Busque a lista de clientes para o formulário
-        clientes = Cliente.query.all()
-        return render_template('editar_centro_custo.html', centro_custo=centro_custo, clientes=clientes)
-    except NoResultFound:
-        flash('Centro de custo não encontrado.', 'danger')
+        db.session.commit()
+        flash('Centro de custo atualizado com sucesso!', 'success')
         return redirect(url_for('listar_centros_custo'))
+    
+    # Busque a lista de clientes para o formulário
+    clientes = Cliente.query.all()
+    return render_template('editar_centro_custo.html', centro_custo=centro_custo, clientes=clientes)
 
 # Rota para excluir um centro de custo
-@app.route('/centros_custo/excluir/<int:id>', methods=['POST'])
+@app.route('/centros_custo/excluir/<int:id>', methods=['GET', 'POST'])
 def excluir_centro_custo(id):
-    try:
-        centro_custo = CentroCusto.query.get(id)
-
-        if centro_custo is None:
-            flash('Centro de custo não encontrado.', 'danger')
-            return redirect(url_for('listar_centros_custo'))
-
-        db.session.delete(centro_custo)
-        db.session.commit()
-        flash('Centro de custo excluído com sucesso!', 'success')
-    except NoResultFound:
-        flash('Centro de custo não encontrado.', 'danger')
-    except Exception as e:
-        flash(f"Erro ao excluir o centro de custo: {str(e)}", 'danger')
-
+    centro_custo = CentroCusto.query.get(id)
+    db.session.delete(centro_custo)
+    db.session.commit()
+    flash('Centro de custo excluído com sucesso!', 'success')
     return redirect(url_for('listar_centros_custo'))
 
 
@@ -1210,7 +1191,7 @@ def excluir_acessorio(id):
 @app.route('/listar_agendamentos')
 def listar_agendamentos():
     # Obtenha os parâmetros de pesquisa da URL
-    search_query = request.args.get('search', default='', type=str)
+    search_query = request.args.get('search_query', default='', type=str)
     status = request.args.get('status', default='', type=str)
     cliente = request.args.get('cliente', default='', type=str)
     tipo_servico = request.args.get('tipo_servico', default='', type=str)

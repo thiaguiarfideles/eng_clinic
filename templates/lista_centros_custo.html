@@ -124,8 +124,8 @@
                             <td>{{ centro_custo.codigo }}</td>
                             <td>{{ centro_custo.cliente.nome_fantasia }}</td>
                             <td>
-                                <a href="{{ url_for('editar_centro_custo', id=centro_custo.codigo) }}" class="btn btn-primary">Editar</a>
-                                <form method="POST" action="{{ url_for('excluir_centro_custo', id=centro_custo.codigo) }}" style="display: inline;">
+                                <a href="{{ url_for('editar_centro_custo', id=centro_custo.id) }}" class="btn btn-primary">Editar</a>
+                                <form method="POST" action="{{ url_for('excluir_centro_custo', id=centro_custo.id) }}" style="display: inline;">
                                     <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir este centro de custo?')">Excluir</button>
                                 </form>
                             </td>

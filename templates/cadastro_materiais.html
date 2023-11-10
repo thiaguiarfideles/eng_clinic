@@ -113,7 +113,11 @@
         <form method="POST">
             <div class="mb-3">
                 <label for="tipo_material" class="form-label">Tipo de Material</label>
-                <input type="text" class="form-control" id="tipo_material" name="tipo_material">
+                <select class="form-select" id="tipo_material" name="tipo_material">
+                    <option value="Consumo">Consumo</option>
+                    <option value="Permanente">Permanente</option>
+                    <option value="Acessorio">Acessorio</option>
+                </select>
             </div>
             <div class="mb-3">
                 <label for="material" class="form-label">Material</label>
@@ -125,7 +129,23 @@
             </div>
             <div class="mb-3">
                 <label for="unidade_medida" class="form-label">Unidade de Medida</label>
-                <input type="text" class="form-control" id="unidade_medida" name="unidade_medida">
+                <select class="form-select" id="unidade_medida" name="unidade_medida">
+                    <option value="UN">Unidade</option>
+                    <option value="CX">Caixa</option>
+                    <option value="DZ">Duzia</option>
+                    <option value="PA">Par</option>
+                    <option value="PÇ">Peça</option>
+                    <option value="PR">Par</option>
+                    <option value="PT">Pacote</option>
+                    <option value="RL">Rolo</option>
+                    <option value="kg">Kilograma</option>
+                    <option value="g">Grama (0,001)</option>
+                    <option value="SC60">Saca 60Kg (60)</option>
+                    <option value="l">Litro (padrão)</option>
+                    <option value="m3">Metro cúbico (1000)</option>
+                    <option value="ml">Mililitro (0,001)</option>
+                    <option value="X">Não definida (padrão)</option>
+                </select>
             </div>
             <div class="mb-3">
                 <label for="quantidade" class="form-label">Quantidade</label>

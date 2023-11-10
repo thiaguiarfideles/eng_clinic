@@ -112,7 +112,7 @@
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label for="material_id" class="form-label">Material:</label>
-                        <select name="material_id" id="material_id" class="form-select" required>
+                        <select name="material_id" id="material_id" class="form-select" >
                             {% for material in materiais %}
                             <option value="{{ material.id }}">{{ material.material }}</option>
                             {% endfor %}
@@ -124,7 +124,7 @@
 
                     <div class="col-md-6">
                         <label for="fabricante_id" class="form-label">Fabricante:</label>
-                        <select name="fabricante_id" id="fabricante_id" class="form-select" required>
+                        <select name="fabricante_id" id="fabricante_id" class="form-select" >
                             {% for fabricante in fabricantes %}
                             <option value="{{ fabricante.id_fornecedor }}">{{ fabricante.Nome_Fantasia }}</option>
                             {% endfor %}
@@ -136,15 +136,22 @@
 
                     <div class="col-md-4">
                         <label for="item_material" class="form-label">Item de Material:</label>
-                        <input type="text" name="item_material" id="item_material" class="form-control" required>
+                        <input type="text" name="item_material" id="item_material" class="form-control" >
                         <div class="invalid-feedback">
                             Por favor, insira o nome Pessoa.
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="rm" class="form-label">RM:</label>
+                        <input type="text" name="rm" id="rm" class="form-control" required>
+                        <div class="invalid-feedback">
+                            Por favor, insira o número de patrimônio.
                         </div>
                     </div>
 
                     <div class="col-md-6">
                         <label for="situacao" class="form-label">Situação:</label>
-                        <select name="situacao" id="situacao" class="form-select" required>
+                        <select name="situacao" id="situacao" class="form-select" >
                             <option value="Operacional">Operacional</option>
                             <option value="Restrições">Restrições</option>
                             <option value="Inoperante">Inoperante</option>
@@ -157,7 +164,7 @@
 
                     <div class="col-md-6">
                         <label for="aquisicao" class="form-label">Aquisição:</label>
-                        <select name="aquisicao" id="aquisicao" class="form-select" required>
+                        <select name="aquisicao" id="aquisicao" class="form-select" >
                             <option value="Próprio">Próprio</option>
                             <option value="Comodato">Comodato</option>
                             <option value="Empréstimo">Empréstimo</option>
@@ -171,7 +178,7 @@
 
                     <div class="col-md-4">
                         <label for="setor_id" class="form-label">Setor:</label>
-                        <select name="setor_id" id="setor_id" class="form-select" required>
+                        <select name="setor_id" id="setor_id" class="form-select" >
                             {% for setor in setores %}
                             <option value="{{ setor.id_setor }}">{{ setor.setor }}</option>
                             {% endfor %}
@@ -183,7 +190,7 @@
 
                     <div class="col-md-4">
                         <label for="cliente_id" class="form-label">Cliente:</label>
-                        <select name="cliente_id" id="cliente_id" class="form-select" required>
+                        <select name="cliente_id" id="cliente_id" class="form-select" >
                             {% for cliente in clientes %}
                             <option value="{{ cliente.id_cliente }}">{{ cliente.nome_fantasia }}</option>
                             {% endfor %}
@@ -203,6 +210,7 @@
 
                     <div class="col-12">
                         <button type="submit" class="btn btn-primary">Cadastrar</button>
+                        
                     </div>
                 </div>
             </form>

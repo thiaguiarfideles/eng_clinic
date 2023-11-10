@@ -105,14 +105,14 @@
         </div>
     </nav>
         <div class="container">
-            <h1 class="text-center page-title">Atualizar dados dos fornecedores</h1>
+            <h1 class="text-center page-title">Atualizar dados dos acessorios</h1>
     
             <div class="container custom-form">
                 <form method="POST" action="{{ url_for('editar_acessorio', id=acessorio.id_acessorio) }}" class="form-horizontal" novalidate>
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label for="material_id" class="form-label">Material:</label>
-                            <select name="material_id" id="material_id" class="form-control" required>
+                            <select name="material_id" id="material_id" class="form-control" >
                                 {% for material in materiais %}
                                 <option value="{{ material.id_material }}" {% if acessorio.material_id == material.id_material %}selected{% endif %}>
                                     {{ material.material }}
@@ -126,7 +126,7 @@
     
                         <div class="col-md-6">
                             <label for="fabricante_id" class="form-label">Fabricante:</label>
-                            <select name="fabricante_id" id="fabricante_id" class="form-control" required>
+                            <select name="fabricante_id" id="fabricante_id" class="form-control" >
                                 {% for fabricante in fabricantes %}
                                 <option value="{{ fabricante.id_fornecedor }}" {% if acessorio.fabricante_id == fabricante.id_fornecedor %}selected{% endif %}>
                                     {{ fabricante.Nome_Fantasia }}
@@ -142,7 +142,7 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label for="item_material" class="form-label">Ítem de Material:</label>
-                            <input type="text" name="item_material" id="item_material" value="{{ acessorio.item_material }}" class="form-control" required>
+                            <input type="text" name="item_material" id="item_material" value="{{ acessorio.item_material }}" class="form-control" >
                             <div class="invalid-feedback">
                                 Este campo é obrigatório.
                             </div>
@@ -160,7 +160,7 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label for="situacao" class="form-label">Situação:</label>
-                            <select name="situacao" id="situacao" class="form-control" required>
+                            <select name="situacao" id="situacao" class="form-control" >
                                 <option value="Operacional" {% if acessorio.situacao == 'Operacional' %}selected{% endif %}>Operacional</option>
                                 <option value="Restrições" {% if acessorio.situacao == 'Restrições' %}selected{% endif %}>Restrições</option>
                                 <option value="Inoperante" {% if acessorio.situacao == 'Inoperante' %}selected{% endif %}>Inoperante</option>
@@ -173,7 +173,7 @@
     
                         <div class="col-md-6">
                             <label for="aquisicao" class="form-label">Aquisição:</label>
-                            <select name="aquisicao" id="aquisicao" class="form-control" required>
+                            <select name="aquisicao" id="aquisicao" class="form-control" >
                                 <option value="Próprio" {% if acessorio.aquisicao == 'Próprio' %}selected{% endif %}>Próprio</option>
                                 <option value="Comodato" {% if acessorio.aquisicao == 'Comodato' %}selected{% endif %}>Comodato</option>
                                 <option value="Empréstimo" {% if acessorio.aquisicao == 'Empréstimo' %}selected{% endif %}>Empréstimo</option>
@@ -189,7 +189,7 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label for="setor_id" class="form-label">Setor:</label>
-                            <select name="setor_id" id="setor_id" class="form-control" required>
+                            <select name="setor_id" id="setor_id" class="form-control" >
                                 {% for setor in setores %}
                                 <option value="{{ setor.id_setor }}" {% if acessorio.setor_id == setor.id_setor %}selected{% endif %}>
                                     {{ setor.setor }}
@@ -203,7 +203,7 @@
     
                         <div class="col-md-6">
                             <label for="cliente_id" class="form-label">Cliente:</label>
-                            <select name="cliente_id" id="cliente_id" class="form-control" required>
+                            <select name="cliente_id" id="cliente_id" class="form-control" >
                                 {% for cliente in clientes %}
                                 <option value="{{ cliente.id_cliente }}" {% if acessorio.cliente_id == cliente.id_cliente %}selected{% endif %}>
                                     {{ cliente.nome_fantasia }}
