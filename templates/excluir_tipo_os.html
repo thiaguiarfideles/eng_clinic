@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excluir Tipo de OS</title>
+    <!-- Adicione seus links de estilo ou scripts aqui, se necessário -->
+</head>
+<body>
+    <h1>Excluir Tipo de OS</h1>
+
+    <p>Tem certeza de que deseja excluir o tipo de OS "{{ tipo_os.tipo_os }}"?</p>
+
+    <form method="post">
+        <!-- Adicione um token CSRF, se estiver usando Flask-WTF ou algo semelhante -->
+        <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
+        <a href="{{ url_for('listar_tipos_os') }}" class="btn btn-secondary">Cancelar</a>
+    </form>
+
+    <!-- Adicione seus scripts ou outros elementos conforme necessário -->
+</body>
+</html>

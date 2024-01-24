@@ -114,7 +114,7 @@
                         <label for="material_id" class="form-label">Material:</label>
                         <select name="material_id" id="material_id" class="form-select" >
                             {% for material in materiais %}
-                            <option value="{{ material.id }}">{{ material.material }}</option>
+                            <option value="{{ material.id_material }}">{{ material.material }}</option>
                             {% endfor %}
                         </select>
                         <div class="invalid-feedback">

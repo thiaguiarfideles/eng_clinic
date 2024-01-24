@@ -131,6 +131,13 @@
                     <td>{{ tipo_os.id }}</td>
                     <td>{{ tipo_os.tipo_os }}</td>
                     <td>{{ tipo_os.observacoes }}</td>
+
+                    <td>
+                        <a href="{{ url_for('editar_tipo_os', id_tipo_os=tipo_os.id) }}" class="btn btn-primary">Editar</a>
+                        <form method="POST" action="{{ url_for('excluir_tipo_os', id_tipo_os=tipo_os.id) }}" style="display: inline;">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir este tipo de OS?')">Excluir</button>
+                        </form>
+                    </td>    
                 </tr>
                     {% endfor %}
                 </tbody>

@@ -137,15 +137,16 @@
                 <tbody>
                     {% for material in materiais %}
                     <tr>
-                        <td>{{ material.id }}</td>
+                        <td>{{ material.id_material }}</td>
                         <td>{{ material.tipo_material }}</td>
                         <td>{{ material.material }}</td>
                         <td>{{ material.descricao }}</td>
                         <td>{{ material.unidade_medida }}</td>
+                        <td>{{ material.data_criacao.strftime('%Y-%m-%d %H:%M:%S') }}</td>
                         <td>{{ material.quantidade }}</td>
                         <td>
-                            <a href="{{ url_for('editar_material', id_material=material.id) }}" class="btn btn-primary">Editar</a>
-                            <form method="POST" action="{{ url_for('excluir_material', id_material=material.id) }}" style="display: inline;">
+                            <a href="{{ url_for('editar_material', id_material=material.id_material) }}" class="btn btn-primary">Editar</a>
+                            <form method="POST" action="{{ url_for('excluir_material', id_material=material.id_material) }}" style="display: inline;">
                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir este maaterial?')">Excluir</button>
                             </form>
                         </td>

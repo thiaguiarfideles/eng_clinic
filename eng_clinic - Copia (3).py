@@ -1,19 +1,6 @@
 import smtplib
-import logging
 from email.mime.text import MIMEText
-from flask import Flask, jsonify, render_template, request,flash, url_for, redirect, current_app, Response, make_response
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
-from reportlab.lib import colors
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Image
-from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.lib.units import inch
-from io import BytesIO
-from reportlab.pdfgen.canvas import Canvas
-from reportlab.lib import utils
-from PIL import ImageSequence
-from PIL import Image as PILImage
-
+from flask import Flask, jsonify, render_template, request,flash, url_for, redirect, current_app, Response
 from datetime import date, datetime, timedelta
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql.expression import exists
@@ -34,7 +21,6 @@ from enviar_email_administrador import enviar_email_administrador
 from utils import generate_random_token
 from flask_migrate import Migrate
 #from wtforms.fields.html5 import DateField
-
 
 import os
 import bcrypt
@@ -181,15 +167,13 @@ class CadFornecedor(db.Model):
         return self.Nome_Fantasia
 
 class Material(db.Model):
-    id_material = db.Column(db.Integer, primary_key=True)
-    ordem_servico_id = db.Column(db.Integer, db.ForeignKey('ordem_servico.id_os'))
+    id = db.Column(db.Integer, primary_key=True)
     tipo_material = db.Column(db.String(20), nullable=False)
     material = db.Column(db.String(100), nullable=False)
     descricao = db.Column(db.String(255))
     unidade_medida = db.Column(db.String(10), nullable=False)
     data_criacao = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     quantidade = db.Column(db.Integer)
-    ordens_servico = db.relationship('OrdemServico', secondary='ordem_servico_material', back_populates='material')
 
     def __init__(self, tipo_material, material, descricao, unidade_medida, quantidade):
         self.tipo_material = tipo_material
@@ -197,41 +181,18 @@ class Material(db.Model):
         self.descricao = descricao
         self.unidade_medida = unidade_medida
         self.quantidade = quantidade
-    
-class OrdemServicoMaterial(db.Model):
-    __tablename__ = 'ordem_servico_material'
-    ordem_servico_id = db.Column(db.Integer, db.ForeignKey('ordem_servico.id_os'), primary_key=True)
-    material_id = db.Column(db.Integer, db.ForeignKey('material.id_material'), primary_key=True)       
-
-
-class OrdemServico(db.Model):
-    __tablename__ = 'ordem_servico'
-    id_os = db.Column(db.Integer, primary_key=True)
-    cliente_id = db.Column(db.Integer, db.ForeignKey('cliente.id_cliente'), nullable=False)
-    cliente = db.relationship('Cliente', foreign_keys=[cliente_id])
-    setor_id = db.Column(db.Integer, db.ForeignKey('setor.id_setor'), nullable=False)
-    setor = db.relationship('Setor', foreign_keys=[setor_id])
-    solicitante_id = db.Column(db.Integer, db.ForeignKey('cliente.id_cliente'), nullable=False)
-    solicitante = db.relationship('Cliente', foreign_keys=[solicitante_id], overlaps="cliente")
-    data_hora = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
-    tipo_os_id = db.Column(db.Integer, db.ForeignKey('tipo_os.id'))
-    tipo_os = db.relationship('TipoOs', backref=db.backref('ordens_servico', lazy=True))
-    motivo_os = db.Column(db.Text, nullable=False)
-    localizacao = db.Column(db.String(255))
-    material = db.relationship('Material', secondary='ordem_servico_material', back_populates='ordens_servico')
- 
         
 
 class item_material(db.Model):
     id_itmaterial = db.Column(db.Integer, primary_key=True)
-    material_id = db.Column(db.Integer, db.ForeignKey('material.id_material'), nullable=False)
+    material_id = db.Column(db.Integer, db.ForeignKey('material.id'), nullable=False)
     fabricante_id = db.Column(db.Integer, db.ForeignKey('cadfornecedor.id_fornecedor'), nullable=False)
     modelo = db.Column(db.String(100))
     complemento = db.Column(db.String(100))
     foto_material = db.Column(db.String(255))
     quantidade = db.Column(db.Integer)  # Adiciona a coluna "quantidade"
-    tipo_material_id = db.Column(db.Integer, db.ForeignKey('material.id_material'), nullable=False)
-    unidade_medida_id = db.Column(db.Integer, db.ForeignKey('material.id_material'), nullable=False)
+    tipo_material_id = db.Column(db.Integer, db.ForeignKey('material.id'), nullable=False)
+    unidade_medida_id = db.Column(db.Integer, db.ForeignKey('material.id'), nullable=False)
     data_consumo = db.Column(db.DateTime)
 
     material = db.relationship('Material', foreign_keys=[material_id])
@@ -276,8 +237,39 @@ class Cliente(db.Model):
     observacoes = db.Column(db.Text, nullable=True)
     diretor = db.Column(db.String(100), nullable=True)
     telefone_diretor = db.Column(db.String(15), nullable=True)
-    
 
+
+class OrdemServicoMaterial(db.Model):
+    __tablename__ = 'ordem_servico_material'
+    ordem_servico_id = db.Column(db.Integer, db.ForeignKey('ordem_servico.id_os'), primary_key=True)
+    material_id = db.Column(db.Integer, db.ForeignKey('material.id'), primary_key=True)
+      
+
+        
+class OrdemServico(db.Model):
+    __tablename__ = 'ordem_servico'
+    id_os = db.Column(db.Integer, primary_key=True)
+    cliente_id = db.Column(db.Integer, db.ForeignKey('cliente.id_cliente'), nullable=False)
+    setor_id = db.Column(db.Integer, db.ForeignKey('setor.id_setor'), nullable=False)
+    solicitante_id = db.Column(db.Integer, db.ForeignKey('cliente.id_cliente'), nullable=False)
+    data_hora = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    tipo_os_id = db.Column(db.Integer, db.ForeignKey('tipo_os.id'), nullable=False)
+    motivo_os = db.Column(db.Text, nullable=False)
+
+    # Adicione a relação many-to-many com Material
+    materiais = db.relationship('Material', secondary='ordem_servico_material', backref='ordens_servico')
+
+
+class tipo_os(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    tipo_os = db.Column(db.String(255), nullable=False)
+    observacoes = db.Column(db.Text, nullable=True)
+
+    def __init__(self, tipo_os, observacoes):
+        self.tipo_os = tipo_os
+        self.observacoes = observacoes
+            
+    
 class CentroCusto(db.Model):
     __tablename__ = 'centro_custo'
     id = db.Column(db.Integer, primary_key=True)
@@ -294,25 +286,13 @@ class Setor(db.Model):
     chefe = db.Column(db.String(255))
     observacao = db.Column(db.Text)
     cliente_id = db.Column(db.Integer, db.ForeignKey('cliente.id_cliente'), nullable=False)
-    cliente = db.relationship('Cliente', foreign_keys=[cliente_id])    
-    
-    
-    
-class TipoOs(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    tipo_os = db.Column(db.String(255), nullable=False)
-    observacoes = db.Column(db.Text, nullable=True)
-
-    def __init__(self, tipo_os, observacoes):
-        self.tipo_os = tipo_os
-        self.observacoes = observacoes    
-         
+    cliente = db.relationship('Cliente', foreign_keys=[cliente_id])
     
     
 class EntradaAcessorios(db.Model):
     __tablename__ = 'entrada_acessorios'
     id_acessorio = db.Column(db.Integer, primary_key=True)
-    material_id = db.Column(db.Integer, db.ForeignKey('material.id_material'), nullable=False)
+    material_id = db.Column(db.Integer, db.ForeignKey('material.id'), nullable=False)
     material = db.relationship('Material', foreign_keys=[material_id])
     fabricante_id = db.Column(db.Integer, db.ForeignKey('cadfornecedor.id_fornecedor'), nullable=False)
     fabricante = db.relationship('CadFornecedor', foreign_keys=[fabricante_id])
@@ -952,9 +932,9 @@ def excluir_material(id_material):
 def cadastrar_item_material():
     form = CadastroItemMaterialForm()
     form.fabricante.choices = [(f.id_fornecedor, f.Razao_Social) for f in CadFornecedor.query.all()]
-    form.material.choices = [(m.id_material, m.material) for m in Material.query.all()]
-    form.tipo_material.choices = [(m.id_material, m.tipo_material) for m in Material.query.all()]
-    form.unidade_medida.choices = [(m.id_material, m.unidade_medida) for m in Material.query.all()]
+    form.material.choices = [(m.id, m.material) for m in Material.query.all()]
+    form.tipo_material.choices = [(m.id, m.tipo_material) for m in Material.query.all()]
+    form.unidade_medida.choices = [(m.id, m.unidade_medida) for m in Material.query.all()]
 
     if form.validate_on_submit():
         material_id = int(form.material.data)
@@ -999,146 +979,27 @@ def cadastrar_tipo_os():
     if request.method == 'POST':
         tipo_os = request.form['tipo_os']
         observacoes = request.form['observacoes']
-        novo_tipo_os = TipoOs(
+        novo_tipo_os = tipo_os(
             tipo_os=tipo_os,
             observacoes=observacoes
-        )
+            )
         db.session.add(novo_tipo_os)
         db.session.commit()
         return redirect(url_for('listar_tipos_os'))
     return render_template('cadastro_tipo_os.html')
 
-
-
 @app.route('/listar_tipos_os')
 def listar_tipos_os():
-    tipos_os = TipoOs.query.all()
+    tipos_os = tipo_os.query.all()
     return render_template('lista_tipos_os.html', tipos_os=tipos_os)
-
-# Rota para editar tipo de OS
-@app.route('/editar_tipo_os/<int:id_tipo_os>', methods=['GET', 'POST'])
-def editar_tipo_os(id_tipo_os):
-    tipo_os_editar = TipoOs.query.get(id_tipo_os)
-
-    if request.method == 'POST':
-        tipo_os_editar.tipo_os = request.form['tipo_os']
-        tipo_os_editar.observacoes = request.form['observacoes']
-        db.session.commit()
-        return redirect(url_for('listar_tipos_os'))
-
-    return render_template('editar_tipo_os.html', tipo_os=tipo_os_editar)
-
-# Rota para excluir tipo de OS
-@app.route('/excluir_tipo_os/<int:id_tipo_os>', methods=['GET', 'POST'])
-def excluir_tipo_os(id_tipo_os):
-    tipo_os_excluir = TipoOs.query.get(id_tipo_os)
-
-    if request.method == 'POST':
-        db.session.delete(tipo_os_excluir)
-        db.session.commit()
-        return redirect(url_for('listar_tipos_os'))
-
-    return render_template('excluir_tipo_os.html', tipo_os=tipo_os_excluir)
-
-
-
-
-def contar_paginas(pdf_data):
-    try:
-        img = PILImage.open(BytesIO(pdf_data))
-        return len(list(img.getdata()))
-    except Exception as e:
-        logging.error(f"Erro ao abrir a imagem: {str(e)}")
-        return 0  # Retorna 0 páginas em caso de erro
-
-def gerar_pdf(ordem_servico):
-    try:
-        buffer = BytesIO()
-
-        # Criação do PDF usando reportlab
-        elements = []
-
-        # Adicione a imagem da logo (substitua 'logo.png' pelo caminho real da imagem)
-        logo_path = 'media/logo.png'
-        logo = Image(logo_path, width=100, height=50)
-        elements.append(logo)
-
-        # Adicione o texto do cabeçalho
-        header_text = f"ORDEM DE SERVIÇO {ordem_servico.id_os}"
-        elements.append(Paragraph(header_text, getSampleStyleSheet()['Heading1']))
-
-        # Adicione a data e hora de criação
-        creation_date_text = f"Data da elaboração: {ordem_servico.data_hora.strftime('%d/%m/%Y, %H:%M:%S')}"
-        elements.append(Paragraph(creation_date_text, getSampleStyleSheet()['Normal']))
-
-        # Adicione conteúdo ao PDF
-        elements.append(Paragraph("<b>Formulário de Abertura de OS</b>", getSampleStyleSheet()['Heading2']))
-        elements.append(Paragraph(f"<b>Data e Hora:</b> {datetime.utcnow()}", getSampleStyleSheet()['Normal']))
-        elements.append(Paragraph(f"<b>Cliente:</b> {ordem_servico.cliente.nome_fantasia}", getSampleStyleSheet()['Normal']))
-
-        tipo_os = TipoOs.query.get(ordem_servico.tipo_os_id)
-        elements.append(Paragraph(f"<b>Tipo de OS:</b> {tipo_os.tipo_os if tipo_os else 'Não especificado'}", getSampleStyleSheet()['Normal']))
-        elements.append(Paragraph(f"<b>Motivo OS:</b> {ordem_servico.motivo_os}", getSampleStyleSheet()['Normal']))
-
-        # Adicione os campos a serem preenchidos manualmente
-        equipment_fields = [
-            "Nome do Equipamento médico-hospitalar",
-            "Marca",
-            "Modelo",
-            "Número de Série",
-            "Patrimônio",
-            "TAG",
-            "Setor em que o equipamento está alocado",
-            "Número de registro na ANVISA",
-            "Data da instalação",
-            "Data da alienação (quando for o caso)"
-        ]
-
-        for field in equipment_fields:
-            field_text = f"<b>{field}:</b> _______________"  # Adicione espaços para preenchimento manual
-            elements.append(Paragraph(field_text, getSampleStyleSheet()['Normal']))
-
-        # Adicione uma linha para a assinatura
-        signature_line = f"<b>Assinatura:</b> {'_' * 30}"
-        elements.append(Paragraph(signature_line, getSampleStyleSheet()['Normal']))
-
-        # Obtém a contagem de páginas
-        total_pages = contar_paginas(buffer.getvalue())
-        buffer.seek(0)  # Volta ao início do buffer para leitura
-
-        # Atualize o número total de páginas no campo de contagem
-        page_number_text = f"Folha: 1 de {total_pages}"
-        elements.append(Paragraph(page_number_text, getSampleStyleSheet()['Normal']))
-
-        # Construa o PDF novamente com o número total de páginas atualizado
-        doc = SimpleDocTemplate(buffer, pagesize=letter)
-        doc.build(elements)
-        # Volte ao início do buffer para leitura
-        buffer.seek(0)
-
-        # Crie uma resposta Flask com o PDF
-        response = make_response(buffer.read())
-        response.mimetype = 'application/pdf'
-        response.headers['Content-Disposition'] = f'inline; filename=ordem_servico_{ordem_servico.id_os}.pdf'
-
-        return response
-
-    except Exception as e:
-        logging.error(f"Erro durante a geração do PDF: {str(e)}")
-        raise  # Re-raise a exceção para que ela seja tratada no ponto de chamada
-
-
-
-
-
-
 
 # Rota para exibir o formulário de criação de ordem de serviço
 @app.route('/ordem_servico/nova', methods=['GET'])
 def exibir_formulario_ordem_servico():
+    # Carregue dados necessários para o formulário, como clientes, setores, tipos de OS, materiais, etc.
     clientes = Cliente.query.all()
     setores = Setor.query.all()
-    tipos_os = TipoOs.query.all()
+    tipos_os = tipo_os.query.all()
     materiais = Material.query.all()
 
     return render_template('formulario_ordem_servico.html', clientes=clientes, setores=setores, tipos_os=tipos_os, materiais=materiais)
@@ -1147,47 +1008,59 @@ def exibir_formulario_ordem_servico():
 # Rota para processar o envio do formulário
 @app.route('/ordem_servico/nova', methods=['POST'])
 def criar_ordem_servico():
+    required_fields = ['cliente_id', 'setor_id', 'solicitante_id', 'tipo_os_id', 'motivo_os']
+
     try:
-        data = request.get_json() if request.is_json else request.form.to_dict()
-        required_fields = ['cliente_id', 'setor_id', 'solicitante_id', 'tipo_os_id', 'motivo_os', 'id_material']
+        # Obtenha os dados da solicitação (seja formulário HTML ou JSON)
+        if request.is_json:
+            data = request.json
+        else:
+            data = request.form
+            print(f'Dados da solicitação: {data}')
 
+        # Verifique se todos os campos obrigatórios estão presentes nos dados
         if not all(field in data for field in required_fields):
-            return jsonify({'error': f'Campos obrigatórios ausentes: {", ".join(set(required_fields) - set(data.keys()))}'}), 400
+            return jsonify({'error': 'Campos obrigatórios ausentes'}), 400
 
+        # Verifique se os IDs referenciados existem no banco de dados
+        for field in ['cliente_id', 'setor_id', 'solicitante_id', 'tipo_os_id']:
+            if field not in data or not isinstance(int(data[field]), int) or not db.session.query(exists().where(getattr(OrdemServico, field) == int(data[field]))).scalar():
+                return jsonify({'error': f'{field} inválido ou não existe'}), 400
+
+        # Crie uma nova instância de OrdemServico com os dados recebidos
         nova_ordem = OrdemServico(
-            cliente_id=data['cliente_id'],
-            setor_id=data['setor_id'],
-            solicitante_id=data['solicitante_id'],
+            cliente_id=int(data['cliente_id']),
+            setor_id=int(data['setor_id']),
+            solicitante_id=int(data['solicitante_id']),
             data_hora=datetime.utcnow(),
-            tipo_os_id=data['tipo_os_id'],
-            motivo_os=data['motivo_os'],
-            localizacao=data.get('localizacao', ''),
+            tipo_os_id=int(data['tipo_os_id']),
+            motivo_os=data['motivo_os']
         )
 
-        materiais_selecionados = [int(id_material) for id_material in data['id_material']]
-        materiais_existem = Material.query.filter(Material.id_material.in_(materiais_selecionados)).all()
-
-        if len(materiais_existem) != len(materiais_selecionados):
-            return jsonify({'error': 'Material inválido ou não existe'}), 400
-
-        nova_ordem.material.extend(materiais_existem)
-
-        db.session.add(nova_ordem)
-        db.session.commit()
-        logging.info(f'Gerando PDF para ordem de serviço: {nova_ordem.id_os}')
-        pdf_response = gerar_pdf(nova_ordem)
-        flash('Ordem de serviço adicionada com sucesso', 'success')
+        # Dentro da rota para criar a ordem de serviço
+        materiais_ids = set(data.getlist('materiais') if not request.is_json else data.get('materiais', []))
+        for material_id in materiais_ids:
+            if material_id:  # Certifique-se de que material_id não está vazio
+                material = Material.query.get(material_id)
+                if material:
+                    nova_ordem.materiais.append(material)
         
-        return pdf_response
-
-        return jsonify({'success': 'Ordem de serviço adicionada com sucesso!'})
+        # Adicione a ordem de serviço ao banco de dados
+        db.session.add(nova_ordem)
+        db.session.commit()            
+        
+        if not all(field in data for field in required_fields):
+            return jsonify({'error': 'Campos obrigatórios ausentes'}), 400
+        for field in ['cliente_id', 'setor_id', 'solicitante_id', 'tipo_os_id']:
+            if field not in data or not isinstance(int(data[field]), int):
+                return jsonify({'error': f'{field} inválido'}), 400
+            print(f"Verificando solicitante_id: {int(data['solicitante_id'])}")
+            
+            if not db.session.query(exists().where(getattr(OrdemServico, field) == int(data[field]))).scalar():
+                return jsonify({'error': f'{field} inválido ou não existe'}), 400
     except Exception as e:
-        db.session.rollback()
-        logging.error(f"Erro durante a criação da ordem de serviço: {str(e)}")
+        print(f"Erro durante a criação da ordem de serviço: {str(e)}")
         return jsonify({'error': 'Erro interno do servidor'}), 500
-
-
-
 
     
     

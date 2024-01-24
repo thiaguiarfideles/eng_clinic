@@ -1,19 +1,7 @@
 import smtplib
 import logging
 from email.mime.text import MIMEText
-from flask import Flask, jsonify, render_template, request,flash, url_for, redirect, current_app, Response, make_response
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
-from reportlab.lib import colors
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Image
-from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.lib.units import inch
-from io import BytesIO
-from reportlab.pdfgen.canvas import Canvas
-from reportlab.lib import utils
-from PIL import ImageSequence
-from PIL import Image as PILImage
-
+from flask import Flask, jsonify, render_template, request,flash, url_for, redirect, current_app, Response
 from datetime import date, datetime, timedelta
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql.expression import exists
@@ -34,7 +22,6 @@ from enviar_email_administrador import enviar_email_administrador
 from utils import generate_random_token
 from flask_migrate import Migrate
 #from wtforms.fields.html5 import DateField
-
 
 import os
 import bcrypt
@@ -214,8 +201,7 @@ class OrdemServico(db.Model):
     solicitante_id = db.Column(db.Integer, db.ForeignKey('cliente.id_cliente'), nullable=False)
     solicitante = db.relationship('Cliente', foreign_keys=[solicitante_id], overlaps="cliente")
     data_hora = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
-    tipo_os_id = db.Column(db.Integer, db.ForeignKey('tipo_os.id'))
-    tipo_os = db.relationship('TipoOs', backref=db.backref('ordens_servico', lazy=True))
+    tipo_os_id = db.Column(db.Integer, db.ForeignKey('tipo_os.id'), nullable=False)
     motivo_os = db.Column(db.Text, nullable=False)
     localizacao = db.Column(db.String(255))
     material = db.relationship('Material', secondary='ordem_servico_material', back_populates='ordens_servico')
@@ -1040,99 +1026,6 @@ def excluir_tipo_os(id_tipo_os):
 
     return render_template('excluir_tipo_os.html', tipo_os=tipo_os_excluir)
 
-
-
-
-def contar_paginas(pdf_data):
-    try:
-        img = PILImage.open(BytesIO(pdf_data))
-        return len(list(img.getdata()))
-    except Exception as e:
-        logging.error(f"Erro ao abrir a imagem: {str(e)}")
-        return 0  # Retorna 0 páginas em caso de erro
-
-def gerar_pdf(ordem_servico):
-    try:
-        buffer = BytesIO()
-
-        # Criação do PDF usando reportlab
-        elements = []
-
-        # Adicione a imagem da logo (substitua 'logo.png' pelo caminho real da imagem)
-        logo_path = 'media/logo.png'
-        logo = Image(logo_path, width=100, height=50)
-        elements.append(logo)
-
-        # Adicione o texto do cabeçalho
-        header_text = f"ORDEM DE SERVIÇO {ordem_servico.id_os}"
-        elements.append(Paragraph(header_text, getSampleStyleSheet()['Heading1']))
-
-        # Adicione a data e hora de criação
-        creation_date_text = f"Data da elaboração: {ordem_servico.data_hora.strftime('%d/%m/%Y, %H:%M:%S')}"
-        elements.append(Paragraph(creation_date_text, getSampleStyleSheet()['Normal']))
-
-        # Adicione conteúdo ao PDF
-        elements.append(Paragraph("<b>Formulário de Abertura de OS</b>", getSampleStyleSheet()['Heading2']))
-        elements.append(Paragraph(f"<b>Data e Hora:</b> {datetime.utcnow()}", getSampleStyleSheet()['Normal']))
-        elements.append(Paragraph(f"<b>Cliente:</b> {ordem_servico.cliente.nome_fantasia}", getSampleStyleSheet()['Normal']))
-
-        tipo_os = TipoOs.query.get(ordem_servico.tipo_os_id)
-        elements.append(Paragraph(f"<b>Tipo de OS:</b> {tipo_os.tipo_os if tipo_os else 'Não especificado'}", getSampleStyleSheet()['Normal']))
-        elements.append(Paragraph(f"<b>Motivo OS:</b> {ordem_servico.motivo_os}", getSampleStyleSheet()['Normal']))
-
-        # Adicione os campos a serem preenchidos manualmente
-        equipment_fields = [
-            "Nome do Equipamento médico-hospitalar",
-            "Marca",
-            "Modelo",
-            "Número de Série",
-            "Patrimônio",
-            "TAG",
-            "Setor em que o equipamento está alocado",
-            "Número de registro na ANVISA",
-            "Data da instalação",
-            "Data da alienação (quando for o caso)"
-        ]
-
-        for field in equipment_fields:
-            field_text = f"<b>{field}:</b> _______________"  # Adicione espaços para preenchimento manual
-            elements.append(Paragraph(field_text, getSampleStyleSheet()['Normal']))
-
-        # Adicione uma linha para a assinatura
-        signature_line = f"<b>Assinatura:</b> {'_' * 30}"
-        elements.append(Paragraph(signature_line, getSampleStyleSheet()['Normal']))
-
-        # Obtém a contagem de páginas
-        total_pages = contar_paginas(buffer.getvalue())
-        buffer.seek(0)  # Volta ao início do buffer para leitura
-
-        # Atualize o número total de páginas no campo de contagem
-        page_number_text = f"Folha: 1 de {total_pages}"
-        elements.append(Paragraph(page_number_text, getSampleStyleSheet()['Normal']))
-
-        # Construa o PDF novamente com o número total de páginas atualizado
-        doc = SimpleDocTemplate(buffer, pagesize=letter)
-        doc.build(elements)
-        # Volte ao início do buffer para leitura
-        buffer.seek(0)
-
-        # Crie uma resposta Flask com o PDF
-        response = make_response(buffer.read())
-        response.mimetype = 'application/pdf'
-        response.headers['Content-Disposition'] = f'inline; filename=ordem_servico_{ordem_servico.id_os}.pdf'
-
-        return response
-
-    except Exception as e:
-        logging.error(f"Erro durante a geração do PDF: {str(e)}")
-        raise  # Re-raise a exceção para que ela seja tratada no ponto de chamada
-
-
-
-
-
-
-
 # Rota para exibir o formulário de criação de ordem de serviço
 @app.route('/ordem_servico/nova', methods=['GET'])
 def exibir_formulario_ordem_servico():
@@ -1174,13 +1067,10 @@ def criar_ordem_servico():
 
         db.session.add(nova_ordem)
         db.session.commit()
-        logging.info(f'Gerando PDF para ordem de serviço: {nova_ordem.id_os}')
-        pdf_response = gerar_pdf(nova_ordem)
         flash('Ordem de serviço adicionada com sucesso', 'success')
-        
-        return pdf_response
 
         return jsonify({'success': 'Ordem de serviço adicionada com sucesso!'})
+
     except Exception as e:
         db.session.rollback()
         logging.error(f"Erro durante a criação da ordem de serviço: {str(e)}")

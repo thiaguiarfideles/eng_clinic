@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Tipo de OS</title>
+    <!-- Adicione o link do Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
+    <!-- Adicione seus próprios estilos CSS se necessário -->
+    <style>
+        /* Adicione seus estilos personalizados aqui */
+        body {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Editar Tipo de OS</h1>
+
+    <form method="post">
+        <!-- Adicione um token CSRF, se estiver usando Flask-WTF ou algo semelhante -->
+        <div class="mb-3">
+            <label for="tipo_os" class="form-label">Tipo de OS</label>
+            <input type="text" class="form-control" id="tipo_os" name="tipo_os" value="{{ tipo_os.tipo_os }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="observacoes" class="form-label">Observações</label>
+            <textarea class="form-control" id="observacoes" name="observacoes">{{ tipo_os.observacoes }}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+        <a href="{{ url_for('listar_tipos_os') }}" class="btn btn-secondary">Cancelar</a>
+    </form>
+
+    <!-- Adicione o link dos scripts do Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Adicione seus próprios scripts JS, se necessário -->
+</body>
+</html>
